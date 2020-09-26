@@ -1,0 +1,12 @@
+
+*
+
+!site/
+!site/*
+!site/databases/*
+!site/html/*
+!site/html/css/*
+!site/html/fragments/*
+!script.sh
+!README.md
+!.gitignore
