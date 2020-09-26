@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+
+
+<?php
+//include('/usr/share/nginx/html/functions/connectDB.php');
+include('functions/connectDB.php');
+
+?>
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -22,10 +30,8 @@
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="about.php">Contact</a></li>
-                <li><a href="#">New Page 1</a></li>
-                <li><a href="#">New Page 2</a></li>
-                <li><a href="#">New Page 3</a></li>
-                <li><a href="#">New Page 4</a></li>
+                <li><a href="#"> <?php //connectDB();?> </a></li>
+
             </ul>
         </div>
 

@@ -1,5 +1,5 @@
 <div class="left_side_bar">
-
+<!--
     <div class="col_1">
         <h1>Main Menu</h1>
         <div class="box">
@@ -16,7 +16,7 @@
             </ul>
         </div>
     </div>
-
+-->
     <div class="col_1">
         <h1>Cat Facts</h1>
         <div class="box">
