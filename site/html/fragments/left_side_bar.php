@@ -18,7 +18,7 @@
     </div>
 
     <div class="col_1">
-        <h1>Random Cat Fact</h1>
+        <h1>Cat Facts</h1>
         <div class="box">
             <p>
                 <?php
@@ -27,9 +27,15 @@
                 echo $obj->fact;
                 ?>
             </p>
-            <br>
-
+        </div>
+        <div class="box">
+            <p>
+                <?php
+                $json = file_get_contents('https://catfact.ninja/fact');
+                $obj = json_decode($json);
+                echo $obj->fact;
+                ?>
+            </p>
         </div>
     </div>
-
 </div>
