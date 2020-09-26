@@ -30,9 +30,9 @@ include('functions/connectDB.php');
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="about.php">Contact</a></li>
-                <li style="float: right"><a href="#"> Register<?php //connectDB();?> </a></li>
-                <li style="float: right"><a href="#"> Login<?php //connectDB();?> </a></li>
-                <li style="float: right"><a href="#"> <?php //connectDB();?> </a></li>
+                <li style="float: right; border-right:none;"><a href="#"> Register<?php //connectDB();?> </a></li>
+                <li style="float: right;"><a href="#"> Login<?php //connectDB();?> </a></li>
+                <li style="float: right;"><a href="#"> <?php //connectDB();?> </a></li>
             </ul>
         </div>
 
