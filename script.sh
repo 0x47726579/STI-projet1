@@ -1,5 +1,6 @@
 #!/bin/bash
-
+# This script was only tested on WSL bash
+# but it should still work on linux.
 
 
 docker kill sti_project
