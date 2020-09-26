@@ -18,13 +18,17 @@
     </div>
 
     <div class="col_1">
-        <h1>Block</h1>
+        <h1>Random Cat Fact</h1>
         <div class="box">
-            <p>Enter Block content here...</p>
+            <p>
+                <?php
+                $json = file_get_contents('https://catfact.ninja/fact');
+                $obj = json_decode($json);
+                echo $obj->fact;
+                ?>
+            </p>
             <br>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                Aenean commodo Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                Aenean commodo</p>
+
         </div>
     </div>
 
