@@ -1,12 +1,11 @@
-
 *
-
 !site/
 !site/*
 !site/databases/*
 !site/html/*
 !site/html/css/*
 !site/html/fragments/*
+!site/html/functions/*
 !script.sh
 !README.md
 !.gitignore
