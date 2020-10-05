@@ -5,8 +5,6 @@ include('fragments/header.php');
 
 <div id="page_content">
 
-    <!--Template designed by--><a href="http://www.htmltemplates.net/"><img src="images/copyright.gif" class="copyright"
-                                                                            alt="www.htmltemplates.net"></a>
 
     <!-- left side bar goes here -->
     <?php

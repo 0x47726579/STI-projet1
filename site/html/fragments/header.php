@@ -11,7 +11,7 @@ include('functions/connectDB.php');
     <title>STI - Projet 1</title>
     <meta name="description" content="A simple chatting platform">
     <meta name="keywords" content="chat, STI, security">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
 
@@ -24,7 +24,7 @@ include('functions/connectDB.php');
             <p>Application de communication sécurisée</p>
         </div>
 
-        <div class="navigation" >
+        <div class="navigation">
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="about.php">About</a></li>
