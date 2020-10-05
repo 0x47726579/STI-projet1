@@ -4,10 +4,10 @@
 <?php
 include('functions/connectDB.php');
 session_start();
-var_dump($_SESSION);
+//var_dump($_SESSION);
 
 
-echo $_SERVER['PHP_SELF'];
+//echo $_SERVER['PHP_SELF'];
 if (!isset($_SESSION['login'])) { //if login in session is not set
     if ($_SERVER['PHP_SELF'] != "/login.php") {  // important to check if we're not redirecting login.php onto itself
         $host = $_SERVER['HTTP_HOST'];

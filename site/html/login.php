@@ -4,17 +4,15 @@ include('fragments/header.php');
 ?>
 
 <?php
-// src : https://github.com/BestsoftCorporation/PHP-SQLITE-registration-login-form/blob/master/login.php
-session_start();
 if (isset($_GET["login"])) {
-    var_dump($_POST);
-    echo "<br>I'm in login<br> password = " . $_POST["password"] . " username = " . $_POST["username"] . "<br>";
+//    var_dump($_POST);
+//    echo "<br>I'm in login<br> password = " . $_POST["password"] . " username = " . $_POST["username"] . "<br>";
 
 
     $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
 
     $sql = 'SELECT * from users where username = "' . $_POST["username"] . '";';
-    echo $sql . "<br>";
+//    echo $sql . "<br>";
 
     $ret = $db->query($sql);
 
@@ -23,14 +21,15 @@ if (isset($_GET["login"])) {
         $id = $row['id'];
         $username = $row["username"];
         $password = $row["password"];
-        print $row['id'] . "\n";
-        print $row['username'] . "\n";
-        print $row['password'] . "\n";
+//        print $row['id'] . "\n";
+//        print $row['username'] . "\n";
+//        print $row['password'] . "\n";
     }
     if ($id != "") {
         if ($password == $_POST["password"]) {
             $_SESSION["login"] = $username;
             header('Location: index.php');
+            exit;
         } else {
             echo "Wrong Password";
         }
