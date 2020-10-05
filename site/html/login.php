@@ -1,3 +1,8 @@
+<!-- header goes here -->
+<?php
+include('fragments/header.php');
+?>
+
 <?php
 // src : https://github.com/BestsoftCorporation/PHP-SQLITE-registration-login-form/blob/master/login.php
 session_start();
@@ -11,7 +16,7 @@ if (isset($_GET["login"])) {
     $sql = 'SELECT * from users where username = "' . $_POST["username"] . '";';
     echo $sql . "<br>";
 
-    $ret = $db->query( $sql );
+    $ret = $db->query($sql);
 
     foreach ($ret as $row) {
 
@@ -37,36 +42,29 @@ if (isset($_GET["login"])) {
 
 ?>
 
-
-    <!-- header goes here -->
-<?php
-include('fragments/header.php');
-?>
-
-
-    <!-- left side bar goes here -->
+<!-- left side bar goes here -->
 <?php
 include('fragments/left_side_bar.php');
 ?>
 
 
-    <div class="right_section" style="padding-left: 250px;">
-        <h2>Please login</h2>
-        <div class="box" style="margin-right: fill; padding-right: 390px;">
-            <form role="form" action="login.php?login=true" class="form" method="POST" id="form">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" class="form-control" name="username" placeholder="Enter username">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" class="form-control" name="password" placeholder="Enter password">
-                </div>
-                <input type="submit" name="submitForm" value="LOGIN"/>
-            </form>
-        </div>
+<div class="right_section" style="padding-left: 250px;">
+    <h2>Please login</h2>
+    <div class="box" style="margin-right: fill; padding-right: 390px;">
+        <form role="form" action="login.php?login=true" class="form" method="POST" id="form">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" name="username" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" name="password" placeholder="Enter password">
+            </div>
+            <input type="submit" name="submitForm" value="LOGIN"/>
+        </form>
     </div>
-    <!-- footer goes here -->
+</div>
+<!-- footer goes here -->
 <?php
 include('fragments/footer.php');
 ?>

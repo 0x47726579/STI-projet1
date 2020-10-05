@@ -3,6 +3,20 @@
 
 <?php
 include('functions/connectDB.php');
+session_start();
+var_dump($_SESSION);
+
+
+echo $_SERVER['PHP_SELF'];
+if (!isset($_SESSION['login'])) { //if login in session is not set
+    if ($_SERVER['PHP_SELF'] != "/login.php") {  // important to check if we're not redirecting login.php onto itself
+        $host = $_SERVER['HTTP_HOST'];
+        $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+        header("Location: http://$host$uri/login.php");
+        exit;
+    }
+}
+
 ?>
 
 <html>
@@ -25,13 +39,24 @@ include('functions/connectDB.php');
         </div>
 
         <div class="navigation">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="about.php">About</a></li>
-                <li style="float: right; border-right:none;"><a href="#"> Register<?php //connectDB();?> </a></li>
-                <li style="float: right;"><a href="login.php"> Login<?php //connectDB();?> </a></li>
-                <li style="float: right;"><a href="#"> <?php //connectDB();?> </a></li>
-            </ul>
+
+            <?php
+            if (!isset($_SESSION['login'])) {
+                echo '<ul>
+                        <li><a href="/">Home</a></li>
+                        <li style="float: right;"><a href="login.php">  Login </a></li>
+                        <li style="float: right;"><a href="#">  </a></li>
+                      </ul> ';
+            }
+            else {
+                echo '<ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="mailbox.php">Mailbox</a></li>
+                        <li style="float: right;"><a href="logout.php">  Logout </a></li>
+                        <li style="float: right;"><a href="#">  </a></li>
+                      </ul> ';
+            }
+            ?>
         </div>
 
     </div>
