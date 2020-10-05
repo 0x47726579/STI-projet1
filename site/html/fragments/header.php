@@ -45,15 +45,14 @@ if (!isset($_SESSION['login'])) { //if login in session is not set
                 echo '<ul>
                         <li><a href="/">Home</a></li>
                         <li style="float: right;"><a href="login.php">  Login </a></li>
-                        <li style="float: right;"><a href="#">  </a></li>
                       </ul> ';
-            }
-            else {
+            } else {
                 echo '<ul>
                         <li><a href="/">Home</a></li>
                         <li><a href="mailbox.php">Mailbox</a></li>
-                        <li style="float: right;"><a href="logout.php">  Logout </a></li>
-                        <li style="float: right;"><a href="#">  </a></li>
+                        <li style="float: right; border-right:#91969a dotted 0px;"><a href="logout.php">  Logout </a></li>
+                        <li style="float: right;"> Welcome ' . $_SESSION['login'] . '</li>
+                        <li style="float: right;"></li>
                       </ul> ';
             }
             ?>
