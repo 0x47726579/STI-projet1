@@ -2,9 +2,7 @@
 
 
 <?php
-//include('/usr/share/nginx/html/functions/connectDB.php');
 include('functions/connectDB.php');
-
 ?>
 
 <html>
