@@ -30,7 +30,7 @@ table {
 	border-spacing:0;
 }
 
-input, textarea, select {
+textarea, select {
 	font:12px Arial, Helvetica, sans-serif;
 	vertical-align:middle;
 	padding:0;
@@ -336,3 +336,23 @@ a.btn:hover{
 }
 
 /*----end footer content----*/
+
+
+/*------ form -----------*/
+
+form {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+
+input{
+	color:#0a0800;
+	font-size:12px;
+	text-decoration:none;
+	padding:6px 13px 6px 13px;
+	font-weight:bold;
+	display:inline-block;
+	border:#566568 solid 1px;
+	background-color:#97aaae;
+}
