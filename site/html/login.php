@@ -2,29 +2,25 @@
 // src : https://github.com/BestsoftCorporation/PHP-SQLITE-registration-login-form/blob/master/login.php
 session_start();
 if (isset($_GET["login"])) {
-    class MyDB extends SQLite3
-    {
-        function __construct()
-        {
-            $this->open('database.sqlite');
-        }
-    }
-
-    $db = new MyDB();
-    if (!$db) {
-        echo $db->lastErrorMsg();
-    } else {
-        //echo "Opened database successfully\n";
-    }
-
-    $sql = 'SELECT * from USER where USERNAME="' . $_POST["username"] . '";';
+    var_dump($_POST);
+    echo "<br>I'm in login<br> password = " . $_POST["password"] . " username = " . $_POST["username"] . "<br>";
 
 
-    $ret = $db->query($sql);
-    while ($row = $ret->fetchArray(SQLITE3_ASSOC)) {
-        $id = $row['ID'];
-        $username = $row["USERNAME"];
-        $password = $row['PASSWORD'];
+    $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
+
+    $sql = 'SELECT * from users where username = "' . $_POST["username"] . '";';
+    echo $sql . "<br>";
+
+    $ret = $db->query( $sql );
+
+    foreach ($ret as $row) {
+
+        $id = $row['id'];
+        $username = $row["username"];
+        $password = $row["password"];
+        print $row['id'] . "\n";
+        print $row['username'] . "\n";
+        print $row['password'] . "\n";
     }
     if ($id != "") {
         if ($password == $_POST["password"]) {
@@ -36,8 +32,7 @@ if (isset($_GET["login"])) {
     } else {
         echo "User does not exist, please register to continue!";
     }
-    //echo "Operation done successfully\n";
-    $db->close();
+
 }
 
 ?>
@@ -58,16 +53,16 @@ include('fragments/left_side_bar.php');
     <div class="right_section" style="padding-left: 250px;">
         <h2>Please login</h2>
         <div class="box" style="margin-right: fill; padding-right: 390px;">
-            <form role="form" action="login.php?login=true" class="form">
+            <form role="form" action="login.php?login=true" class="form" method="POST" id="form">
                 <div class="form-group">
                     <label for="username">Username:</label>
-                    <input type="text" class="form-control" id="username" placeholder="Enter username">
+                    <input type="text" class="form-control" name="username" placeholder="Enter username">
                 </div>
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter password">
+                    <input type="password" class="form-control" name="password" placeholder="Enter password">
                 </div>
-                <input type="submit" value="LOGIN"/>
+                <input type="submit" name="submitForm" value="LOGIN"/>
             </form>
         </div>
     </div>
