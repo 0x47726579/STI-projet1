@@ -15,7 +15,7 @@ include('fragments/header.php');
         <div class="common_content">
             <h2>Welcome</h2>
             <hr>
-            <p>This website let's you send and receive messages!</p>
+            <p>This website lets you send and receive messages!</p>
         </div>
 
     </div>
