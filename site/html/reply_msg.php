@@ -7,8 +7,8 @@ include('fragments/header.php');
 <?php
 $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
 
-// finds every message sent to this user
-$sql = 'SELECT * FROM message WHERE recipient = "' . $_SESSION['login'] . '" ORDER BY messageDate;';
+// finds the message to delete with its id
+$sql = 'SELECT * FROM message WHERE messageID = "' . $_GET['messageID'] . '";';
 
 $ret = $db->query($sql);
 
@@ -26,6 +26,7 @@ $ret = $db->query($sql);
             <h1>
                 Your mailbox
             </h1>
+            <!-- print the message we want to reply to -->
             <div class = row>
                 <div class = col>
                     <table class="table-bordered">
@@ -34,28 +35,32 @@ $ret = $db->query($sql);
                                 <th>Sender</th>
                                 <th>Date</th>
                                 <th>Subject</th>
-                                <th colspan="3">Actions</th>
+                                <th>Message</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($ret as $row): ?>
+                        <?php foreach($ret as $row): ?>
                             <tr>
                                 <td> <?php echo $row['sender']?> </td>
                                 <td> <?php echo $row['date']?> </td>
                                 <td> <?php echo $row['object']?> </td>
-                                <td> <a href = "print_msg.php?messageID=<?php echo $row['messageID']?>"> See all </a> </td>
-                                <td> <a href = "delete_msg.php?messageID=<?php echo $row['messageID']?>"> Delete </a> </td>
-                                <td> <a href = "reply_msg.php?messageID=<?php echo $row['messageID']?>"> Reply </a> </td>
+                                <td> <?php echo $row['text']?> </td>
                             </tr>
-                            <?php endforeach;?>
+                        <?php endforeach;?>
                         </tbody>
                     </table>
                 </div>
             </div>
+
+            <!-- to do : create window to enter the reply -->
+
+
         </div>
     </div>
 
     <!-- footer goes here -->
-<?php
-include('fragments/footer.php');
-?>
+    <?php
+    include('fragments/footer.php');
+    ?>
+
+
