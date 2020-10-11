@@ -34,7 +34,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>STI - Projet 1</title>
+    <title>STI - Project 1</title>
     <meta name="description" content="A simple chatting platform">
     <meta name="keywords" content="chat, STI, security">
     <link rel="stylesheet" href="css/style.css" type="text/css">
@@ -47,7 +47,7 @@
 
         <div class="top_banner">
             <h1>STI - Projet 1</h1>
-            <p>Application de communication sécurisée</p>
+            <p>This is a secure communication platform!</p>
         </div>
 
         <div class="navigation">

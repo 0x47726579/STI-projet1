@@ -44,7 +44,7 @@
         <form action="login.php?login=true" method="POST" id="form">
             <div class="form-group">
                 <label for="username">
-                    Username:
+                    Username :
                     <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
                 </label>
             </div>
