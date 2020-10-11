@@ -2,9 +2,13 @@
 <?php
     include('fragments/header.php');
     $db = connectDB();
-
-    $result = $db->query('SELECT * FROM users');
-
+    function redirect()
+    {
+        $host = $_SERVER['HTTP_HOST'];
+        $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+        header("Location: http://$host$uri/administration.php");
+        exit;
+    }
 
 ?>
 
@@ -20,16 +24,56 @@
 
             if (isset($_GET) and $_GET != null)
             {
-
+                // here we set the new role
+                if ($_GET['setRole'])
+                {
+                    $obj = json_decode($_POST["role"]);
+//                    var_dump($obj);
+                    echo '<br>Role ID : <br>' . $obj->roleID . '<br>User ID : <br>' . $obj->userID;
+                    $db->query('UPDATE users SET roleID = '
+                        . $obj->roleID
+                        . ' WHERE id = '
+                        . $obj->userID
+                        . ';');
+                    redirect();
+                }
                 // we clicked on "Modify" for the user's role
                 if ($_GET['modifyRole'])
                 {
-                    echo '<h2>Modifying role for ' . $db->query('SELECT username FROM users WHERE id = '
-                            . $_GET['id']
-                            . ';')
-                            ->fetch()[0]
+                    $userInfo = $db->query('SELECT * FROM users WHERE id = '
+                        . $_GET['id']
+                        . ';')
+                        ->fetchAll()[0];
+                    echo '<h2>Modifying role for ' . $userInfo["username"]
                         . ' </h2>
         <hr>';
+                    $result = $db->query("SELECT * FROM role");
+                    echo '<form style="float: left" action="administration.php?setRole=true" method="POST">';
+                    foreach ($result as $row)
+                    {
+                        if ($row["roleID"] == $userInfo["roleID"])
+                        {
+                            echo '<label for="role"> '
+                                . $row["roleName"]
+                                . '<input type="radio" name="role"  value=\'{"roleID":"'
+                                . $row["roleID"]
+                                . '","userID":"'
+                                . $userInfo["id"]
+                                . '"}\' checked="checked" />
+                                  </label>';
+                        } else
+                        {
+                            echo '<label for="role"> ' . $row["roleName"]
+                                . '<input type="radio" name="role" value=\'{"roleID":"'
+                                . $row["roleID"]
+                                . '","userID":"'
+                                . $userInfo["id"]
+                                . '"}\' />
+                                  </label>';
+                        }
+                        echo '<br>';
+                    }
+                    echo '<input type="submit" name="submitForm" value="CONFIRM"/></form>';
                 }
                 // we clicked on "Activate/Deactivate" for the user's role
                 if ($_GET['toggle'])
@@ -44,14 +88,12 @@
                         . $_GET['id']
                         . ';');
 
-                    $host = $_SERVER['HTTP_HOST'];
-                    $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-                    header("Location: http://$host$uri/administration.php");
-                    exit;
+                    redirect();
                 }
 
             } else
             {
+                $result = $db->query('SELECT * FROM users');
                 echo '<h2>User accounts</h2>
         <hr>
         <table>

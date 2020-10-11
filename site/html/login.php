@@ -40,7 +40,7 @@
     <h2>Please login</h2>
     <hr>
     <div class="box" style="padding-right: 390px;">
-        <form action="login.php?login=true" class="form" method="POST" id="form">
+        <form action="login.php?login=true" method="POST" id="form">
             <div class="form-group">
                 <label for="username">
                     Username:

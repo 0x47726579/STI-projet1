@@ -4,18 +4,18 @@
         <div class="box">
             <p>
                 <?php
-                $json = file_get_contents('https://catfact.ninja/fact');
-                $obj = json_decode($json);
-                echo $obj->fact;
+                    $json = file_get_contents('https://catfact.ninja/fact');
+                    $obj = json_decode($json);
+                    echo $obj->fact;
                 ?>
             </p>
         </div>
         <div class="box">
             <p>
                 <?php
-                $json = file_get_contents('https://catfact.ninja/fact');
-                $obj = json_decode($json);
-                echo $obj->fact;
+                    $json = file_get_contents('https://catfact.ninja/fact');
+                    $obj = json_decode($json);
+                    echo $obj->fact;
                 ?>
             </p>
         </div>
