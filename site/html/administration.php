@@ -143,7 +143,7 @@
                     </form>
                 </div>';
 
-                $result = $db->query('SELECT * FROM users');
+                $result = $db->query('SELECT * FROM users ORDER BY   roleID, username COLLATE NOCASE, active DESC ');
                 echo '<div class="box"><br><br><h2>User accounts</h2>
         <hr>
         <table>
