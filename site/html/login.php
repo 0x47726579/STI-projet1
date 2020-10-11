@@ -37,17 +37,22 @@ include('fragments/left_side_bar.php');
 ?>
 
 
-<div class="right_section" style="padding-left: 250px;">
+<div class="right_section">
     <h2>Please login</h2>
     <div class="box" style="padding-right: 390px;">
         <form action="login.php?login=true" class="form" method="POST" id="form">
             <div class="form-group">
-                <label>Username:</label>
-                <input type="text" class="form-control" name="username" placeholder="Enter username">
+                <label for="username">
+                    Username:
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
+                </label>
             </div>
             <div class="form-group">
-                <label>Password:</label>
-                <input type="password" class="form-control" name="password" placeholder="Enter password">
+                <label for="password">
+                    Password :
+                    <input type="password" class="form-control" name="password" id="password"
+                           placeholder="Enter password">
+                </label>
             </div>
             <input type="submit" name="submitForm" value="LOGIN"/>
         </form>
