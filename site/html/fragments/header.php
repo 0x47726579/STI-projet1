@@ -46,7 +46,7 @@
     <div id="header">
 
         <div class="top_banner">
-            <h1>STI - Projet 1</h1>
+            <h1>STI - Project 1</h1>
             <p>This is a secure communication platform!</p>
         </div>
 
