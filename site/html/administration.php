@@ -93,16 +93,16 @@
                 // HERE WE ADD THE USER
                 if ($_GET['addUser'])
                 {
-                    $result = $db->query("SELECT * FROM users WHERE username = \"" . $_POST['username'] . "\"")->fetchAll();
-//                    var_dump($_POST);
-//                    var_dump($result);
-                    if ($result == null){
-                        $db->query("INSERT INTO \"users\" (\"id\",\"username\",\"password\",\"active\",\"roleID\") 
-                                    VALUES (NULL,'" . $_POST['username'] . "','" . $_POST['password'] . "','" . (int)$_POST['activate'] . "','" . $_POST['roles'] . "')");
-                    }
-                    else {
-                        echo 'oops';
-                    }
+
+                    $db->query("INSERT INTO \"users\" (\"id\",\"username\",\"password\",\"active\",\"roleID\") VALUES (NULL,'"
+                        . $_POST['username']
+                        . "','"
+                        . $_POST['password']
+                        . "','"
+                        . (int)$_POST['activate']
+                        . "','"
+                        . $_POST['roles']
+                        . "')");
                     redirect();
                 }
 
@@ -143,7 +143,7 @@
                     </form>
                 </div>';
 
-                $result = $db->query('SELECT * FROM users ORDER BY   roleID, username COLLATE NOCASE, active DESC ');
+                $result = $db->query('SELECT * FROM users ORDER BY   roleID , active DESC , username COLLATE NOCASE ');
                 echo '<div class="box"><br><br><h2>User accounts</h2>
         <hr>
         <table>
