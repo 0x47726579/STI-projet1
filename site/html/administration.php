@@ -98,8 +98,8 @@
             {
                 echo '<h2>Add a user</h2><hr>';
 
-                echo '<div class="box">
-                <form action="administration.php?addUser=true" method="POST" id="form" style="">
+                echo '<div class="box" style="width: 540px">
+                <form action="administration.php?addUser=true" method="POST" id="form">
                 <div class="column_one">
                 <label for="username">Username :</label>
                     <input type="text" class="form-control" name="username" id="username" 
@@ -108,7 +108,7 @@
                     <input type="password" class="form-control" name="password" id="password"
                            placeholder="Enter password" required>
                 <br></div>
-                <div class="column_two">
+                <div class="column_two" style="margin-right: 285px">
                 <label for="activate">Activate :</label>
                     <input type="checkbox" class="form-control" name="activate" id="activate"
                            checked="checked">
