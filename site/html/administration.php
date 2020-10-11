@@ -21,22 +21,8 @@
 <div class="right_section">
     <div class="common_content">
         <?php
-
             if (isset($_GET) and $_GET != null)
             {
-                // here we set the new role
-                if ($_GET['setRole'])
-                {
-                    $obj = json_decode($_POST["role"]);
-//                    var_dump($obj);
-                    echo '<br>Role ID : <br>' . $obj->roleID . '<br>User ID : <br>' . $obj->userID;
-                    $db->query('UPDATE users SET roleID = '
-                        . $obj->roleID
-                        . ' WHERE id = '
-                        . $obj->userID
-                        . ';');
-                    redirect();
-                }
                 // we clicked on "Modify" for the user's role
                 if ($_GET['modifyRole'])
                 {
@@ -44,9 +30,10 @@
                         . $_GET['id']
                         . ';')
                         ->fetchAll()[0];
+
                     echo '<h2>Modifying role for ' . $userInfo["username"]
-                        . ' </h2>
-        <hr>';
+                        . ' </h2><hr>';
+
                     $result = $db->query("SELECT * FROM role");
                     echo '<form style="float: left" action="administration.php?setRole=true" method="POST">';
                     foreach ($result as $row)
@@ -90,11 +77,61 @@
 
                     redirect();
                 }
+                // here we set the new role
+                if ($_GET['setRole'])
+                {
+                    $obj = json_decode($_POST["role"]);
+                    $db->query('UPDATE users SET roleID = '
+                        . $obj->roleID
+                        . ' WHERE id = '
+                        . $obj->userID
+                        . ';');
+                    redirect();
+                }
+            if ($_GET['addUser'])
+            {
+                var_dump($_POST);
+            }
 
             } else
             {
+                echo '<h2>Add a user</h2><hr>';
+
+                echo '<div class="box">
+                <form action="administration.php?addUser=true" method="POST" id="form" style="">
+                <div class="column_one">
+                <label for="username">Username :</label>
+                    <input type="text" class="form-control" name="username" id="username" 
+                           placeholder="Enter username" required>
+                <label for="password">Password :</label>
+                    <input type="password" class="form-control" name="password" id="password"
+                           placeholder="Enter password" required>
+                <br></div>
+                <div class="column_two">
+                <label for="activate">Activate :</label>
+                    <input type="checkbox" class="form-control" name="activate" id="activate"
+                           checked="checked">
+                <label for="role">Set a role :</label>
+                <select id="role" name="roles">';
+                $result = $db->query("SELECT * FROM role");
+                foreach ($result as $row)
+                {
+                    echo '<option value="' . $row["roleID"] . '">' . $row["roleName"] . '</option>';
+
+                }
+                echo '</select> <br>   </div>     
+                <div class="column_one">   
+                <input type="submit" name="submitForm" value="ADD USER"/>
+                <input type="reset">
+                </div>
+            ';
+
+                echo '
+                    </form>
+                </div>';
+
                 $result = $db->query('SELECT * FROM users');
-                echo '<h2>User accounts</h2>
+                echo '<div class="box"><br><br><h2>User accounts</h2>
         <hr>
         <table>
             <thead>
@@ -135,9 +172,10 @@
 
                 }
                 echo '</tbody>
-        </table>';
+                </table></div>';
 
             }
+
         ?>
 
     </div>
