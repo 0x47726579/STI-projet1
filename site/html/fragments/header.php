@@ -56,13 +56,10 @@
                         <li><a href="mailbox.php">Mailbox</a></li>';
                     $db = connectDB();
                     $statement = 'SELECT r.roleName FROM role AS r INNER JOIN users AS u on u.roleID = r.roleID WHERE u.username = "' . $_SESSION['login'] . '";';
-                    //echo $statement;
                     $result = $db->query($statement)->fetch()[0];
-//                    print($result);
                     if ($result == "admin")
                     {
                         echo '<li ><a href = "administration.php" > Administration</a ></li >';
-
                     }
                     echo '<li style="float: right; border-right:#91969a dotted 0px;"><a href="logout.php">  Logout </a></li>
                         <li style="float: right;"> Welcome ' . $_SESSION['login'] . '</li>

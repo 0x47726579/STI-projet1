@@ -1,44 +1,44 @@
 <!-- header goes here -->
 <?php
-include('fragments/header.php');
+    include('fragments/header.php');
 ?>
 
 <?php
-if (isset($_GET["login"])) {
-    $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
-    $sql = 'SELECT * from users where username = "' . $_POST["username"] . '";';
+    $error = false;
+    if (isset($_GET["login"]))
+    {
+        $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
+        $sql = "SELECT * from users where username = \"" . $_POST["username"] . "\";";
 
-    $ret = $db->query($sql);
-    foreach ($ret as $row) {
+        $result = $db->query($sql)->fetch()[0];
+        $id = $result['id'];
+        $username = $result["username"];
+        $password = $result["password"];
+        $active = $result["active"];
 
-        $id = $row['id'];
-        $username = $row["username"];
-        $password = $row["password"];
-    }
-    if ($id != "") {
-        if ($password == $_POST["password"]) {
+        if ($id != "" and $active and $password == $_POST["password"])
+        {
             $_SESSION["login"] = $username;
             header('Location: index.php');
             exit;
-        } else {
-            echo "Wrong Password";
+        } else
+        {
+            $error = true;
         }
-    } else {
-        echo "User does not exist, please register to continue!";
-    }
 
-}
+    }
 
 ?>
 
 <!-- left side bar goes here -->
 <?php
-include('fragments/left_side_bar.php');
+    include('fragments/left_side_bar.php');
 ?>
 
 
 <div class="right_section">
     <h2>Please login</h2>
+    <hr>
     <div class="box" style="padding-right: 390px;">
         <form action="login.php?login=true" class="form" method="POST" id="form">
             <div class="form-group">
@@ -57,8 +57,13 @@ include('fragments/left_side_bar.php');
             <input type="submit" name="submitForm" value="LOGIN"/>
         </form>
     </div>
+    <?php
+        if ($error) {
+            echo '<hr><p style="text-align: center">Check the credentials you entered, if it still doesn\'t work your account might be disabled...</p>';
+        }
+    ?>
 </div>
 <!-- footer goes here -->
 <?php
-include('fragments/footer.php');
+    include('fragments/footer.php');
 ?>
