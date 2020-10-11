@@ -88,10 +88,11 @@
                         . ';');
                     redirect();
                 }
-            if ($_GET['addUser'])
-            {
-                var_dump($_POST);
-            }
+                // HERE WE ADD THE USER
+                if ($_GET['addUser'])
+                {
+                    var_dump($_POST);
+                }
 
             } else
             {
