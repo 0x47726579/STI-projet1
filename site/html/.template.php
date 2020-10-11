@@ -1,3 +1,15 @@
+<!--
+!!
+!!
+!!
+!! THE GOAL OF THIS FILE
+!! IS TO BE USED AS A
+!! TEMPLATE FOR ANY NEW
+!! FILE
+!!
+!!
+!!
+ -->
 <!-- header goes here -->
 <?php
 include('fragments/header.php');
