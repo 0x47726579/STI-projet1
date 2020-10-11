@@ -19,7 +19,7 @@ if (!isset($_SESSION['login'])) { //if login in session is not set
 
 ?>
 
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>STI - Projet 1</title>
@@ -59,3 +59,4 @@ if (!isset($_SESSION['login'])) { //if login in session is not set
         </div>
 
     </div>
+    <div id="page_content">

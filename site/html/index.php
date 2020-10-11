@@ -3,8 +3,6 @@
 include('fragments/header.php');
 ?>
 
-<div id="page_content">
-
 
     <!-- left side bar goes here -->
     <?php
