@@ -64,6 +64,28 @@
                     }
                     echo '<input type="submit" name="submitForm" value="CONFIRM"/></form>';
                 }
+                // we clicked on "Change password" for the user
+                if ($_GET['modifyPassword'])
+                {
+                    $userInfo = $db->query('SELECT * FROM users WHERE id = '
+                        . $_GET['id']
+                        . ';')
+                        ->fetchAll()[0];
+
+                    echo '<h2>Modifying password for ' . $userInfo["username"]
+                        . ' </h2><hr>';
+
+                    $result = $db->query("SELECT * FROM role");
+                    echo '<form style="float: left" action="administration.php?setPassword=true&id='
+                        . $_GET['id']
+                        . '" method="POST">';
+
+                    echo '<label for="password"> Enter new password : <input type="password" name="password" required/>
+                          </label>';
+                    echo '<br>';
+
+                    echo '<input type="submit" name="submitForm" value="CONFIRM"/></form>';
+                }
                 // we clicked on "Activate/Deactivate" for the user's role
                 if ($_GET['toggle'])
                 {
@@ -87,6 +109,17 @@
                         . $obj->roleID
                         . ' WHERE id = '
                         . $obj->userID
+                        . ';');
+                    redirect();
+                }
+                // here we set the new password
+                if ($_GET['setPassword'])
+                {
+                    var_dump($_POST);
+                    $db->query('UPDATE users SET password = "'
+                        . $_POST['password']
+                        . '" WHERE id = '
+                        . $_GET['id']
                         . ';');
                     redirect();
                 }
@@ -125,11 +158,12 @@
                     <input type="checkbox" class="form-control" name="activate" id="activate" value="1"
                            checked="checked">
                 <label for="role">Set a role :</label>
-                <select id="role" name="roles">';
+                <select id="role" name="roles" >';
                 $result = $db->query("SELECT * FROM role");
                 foreach ($result as $row)
                 {
-                    echo '<option value="' . $row["roleID"] . '">' . $row["roleName"] . '</option>';
+                    // awfull html but it selects the last element by default this way.
+                    echo '<option value="' . $row["roleID"] . '" selected>' . $row["roleName"] . '</option>';
 
                 }
                 echo '</select> <br>   </div>     
@@ -144,7 +178,7 @@
                 </div>';
 
                 $result = $db->query('SELECT * FROM users ORDER BY   roleID , active DESC , username COLLATE NOCASE ');
-                echo '<div class="box"><br><br><h2>User accounts</h2>
+                echo '<div class="box"><hr><h2>User accounts</h2>
         <hr>
         <table>
             <thead>
@@ -152,6 +186,7 @@
                 <th>Username</th>
                 <th>Status</th>
                 <th>Role</th>
+                <th style="border-style: hidden hidden ridge ridge;border-width: 3px;"></th>
             </tr>
             </thead>
             <tbody>';
@@ -180,7 +215,10 @@
                         . ' <a href="administration.php?modifyRole=true&id='
                         . $row['id']
                         . '" class="btn" style="float: right;">Modify</a> </td>';
-
+                    echo '<td style="border-style: solid ridge solid hidden;"> '
+                        . ' &nbsp;&nbsp;<a href="administration.php?modifyPassword=true&id='
+                        . $row['id']
+                        . '">Change password</a> </td>';
                     echo '</tr>';
 
                 }
