@@ -17,6 +17,16 @@
             header("Location: http://$host$uri/login.php");
             exit;
         }
+    } else {
+        $db = connectDB();
+        $statement = 'SELECT active FROM users WHERE username = "' . $_SESSION['login'] . '";';
+        $result = $db->query($statement)->fetch()[0];
+        if ( $result== 0) {
+            $host = $_SERVER['HTTP_HOST'];
+            $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+            header("Location: http://$host$uri/logout.php");
+            exit;
+        }
     }
 
 ?>

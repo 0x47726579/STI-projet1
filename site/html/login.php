@@ -7,6 +7,7 @@
     $error = false;
     if (isset($_GET["login"]))
     {
+        sleep(2);
         $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
         $sql = "SELECT * from users where username = \"" . $_POST["username"] . "\";";
 
