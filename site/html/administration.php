@@ -4,6 +4,8 @@
     $db = connectDB();
     function redirect()
     {
+//        echo 'Success, you will now be redirected...';
+//        sleep(2);
         $host = $_SERVER['HTTP_HOST'];
         $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
         header("Location: http://$host$uri/administration.php");
@@ -91,7 +93,17 @@
                 // HERE WE ADD THE USER
                 if ($_GET['addUser'])
                 {
-                    var_dump($_POST);
+                    $result = $db->query("SELECT * FROM users WHERE username = \"" . $_POST['username'] . "\"")->fetchAll();
+//                    var_dump($_POST);
+//                    var_dump($result);
+                    if ($result == null){
+                        $db->query("INSERT INTO \"users\" (\"id\",\"username\",\"password\",\"active\",\"roleID\") 
+                                    VALUES (NULL,'" . $_POST['username'] . "','" . $_POST['password'] . "','" . (int)$_POST['activate'] . "','" . $_POST['roles'] . "')");
+                    }
+                    else {
+                        echo 'oops';
+                    }
+                    redirect();
                 }
 
             } else
@@ -110,7 +122,7 @@
                 <br></div>
                 <div class="column_two" style="margin-right: 285px">
                 <label for="activate">Activate :</label>
-                    <input type="checkbox" class="form-control" name="activate" id="activate"
+                    <input type="checkbox" class="form-control" name="activate" id="activate" value="1"
                            checked="checked">
                 <label for="role">Set a role :</label>
                 <select id="role" name="roles">';
