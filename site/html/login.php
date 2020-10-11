@@ -10,11 +10,11 @@
         $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
         $sql = "SELECT * from users where username = \"" . $_POST["username"] . "\";";
 
-        $result = $db->query($sql)->fetch()[0];
+        $result = $db->query($sql)->fetchAll()[0];
         $id = $result['id'];
-        $username = $result["username"];
-        $password = $result["password"];
-        $active = $result["active"];
+        $username = $result['username'];
+        $password = $result['password'];
+        $active = $result['active'];
 
         if ($id != "" and $active and $password == $_POST["password"])
         {
