@@ -13,7 +13,7 @@ $sql = 'SELECT s.username, m.recipientID, m.senderID, m.messageDate, m.object, m
         INNER JOIN users AS s on s.id = m.senderID 
         INNER JOIN users as u on u.id = m.recipientID 
         WHERE u.username = "' . $_SESSION['login'] . '" 
-        ORDER BY messageDate;';
+        ORDER BY messageDate DESC;';
 
 $ret = $db->query($sql);
 
