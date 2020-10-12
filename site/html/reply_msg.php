@@ -79,15 +79,20 @@ $ret = $db->query($sql);
 
                             $req = 'SELECT senderID FROM message WHERE messageID = ' . $oldMsgID . '; ';
                             $newRecipientID = $db->query($req);
-                            var_dump($_POST);
+
+                            $date = new DateTime();
+                            $dt = $date->format('d.m.Y H:i');
+
+                            // TODO : here it seems the "send" is set, but the insert statement is not executed for some reason.
                             if(isset($_POST['send'])) {
                                 // inserts the reply message in the database
                                 // increments the message id, gets the current timestamp, gives the sender id, sets the msg object as a reply and sends the message itself
                                 $sql = 'INSERT INTO message (messageID, messageDate, senderID, recipientID, object, message)
-                                        VALUES( ' . $newMsgID . ', datetime(), ' . $newSenderid . ', ' . $newRecipientID . ', "' . $reObj . '", "' . $reply . '");';
+                                        VALUES( "' . $newMsgID . '", "' . $dt . '", "' . $newSenderid . '", "' . $newRecipientID . '", "' . $reObj . '", "' . $reply . '");';
 
                                 $ret = $db->query($sql);
-                                var_dump($ret);
+                                // this var_dump doesn't show anything
+                                var_dump($sql);
                             }
                         ?>
                     </form>

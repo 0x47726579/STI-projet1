@@ -63,7 +63,8 @@
                 {
                     echo '<ul>
                         <li><a href="/">Home</a></li>
-                        <li><a href="mailbox.php">Mailbox</a></li>';
+                        <li><a href="mailbox.php">Mailbox</a></li>
+                        <li><a href="change_pwd.php">Change password</a></li>';
                     $db = connectDB();
                     $statement = 'SELECT r.roleName FROM role AS r INNER JOIN users AS u on u.roleID = r.roleID WHERE u.username = "' . $_SESSION['login'] . '";';
                     $result = $db->query($statement)->fetch()[0];
