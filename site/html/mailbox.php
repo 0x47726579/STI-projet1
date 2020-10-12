@@ -51,9 +51,9 @@ $ret = $db->query($sql);
                                 <td> <?php echo $row['username']?> </td>
                                 <td> <?php echo $row['messageDate']?> </td>
                                 <td> <?php echo $row['object']?> </td>
-                                <td> <a href = "print_msg.php?messageID=<?php echo $row['messageID']?>"> See all </a> </td>
-                                <td> <a href = "delete_msg.php?messageID=<?php echo $row['messageID']?>"> Delete </a> </td>
+                                <td> <a href = "print_msg.php?messageID=<?php echo $row['messageID']?>"> Read </a> </td>
                                 <td> <a href = "reply_msg.php?messageID=<?php echo $row['messageID']?>"> Reply </a> </td>
+                                <td> <a href = "delete_msg.php?messageID=<?php echo $row['messageID']?>"> Delete </a> </td>
                             </tr>
                             <?php endforeach;?>
                         </tbody>

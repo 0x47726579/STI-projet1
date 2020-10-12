@@ -6,17 +6,16 @@ include('fragments/header.php');
 
 <?php
 $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
-
+$oldMsgID = (int) $_REQUEST['messageID'];
 // finds the message to reply to with its id
 $sql = 'SELECT s.username, m.recipientID, m.senderID, m.messageDate, m.object, m.messageID, m.message 
         FROM message AS m 
         INNER JOIN users AS s on s.id = m.senderID 
         INNER JOIN users as u on u.id = m.recipientID 
-        WHERE u.username = "' . $_SESSION['login'] . '" 
+        WHERE m.messageID = ' . $oldMsgID . ' 
         ORDER BY messageDate DESC;';
 
 $ret = $db->query($sql);
-
 ?>
 
 <div id="page_content">
@@ -62,8 +61,9 @@ $ret = $db->query($sql);
                     <br>
 
                     <form method="post" action="?">
-                        <h4 align="left">Reply :</h4>
-                        <textarea cols="35" rows="10" name="reply">Type your reply here ...</textarea>
+                        <input type="hidden" name="oldMsgID" value=<?php echo $oldMsgID; ?> />
+                        <label for="reply">Reply :</label>
+                        <textarea cols="35" rows="10" id="reply" name="reply">Type your reply here ...</textarea>
                         <br><br>
                         <input type="submit" name="send" value="Send">
 
@@ -72,30 +72,23 @@ $ret = $db->query($sql);
 
                             $id = 'SELECT id FROM users WHERE username = "' . $_SESSION["login"] . '";';
                             $newSenderid = $db->query($id);
-                            var_dump($newSenderid);
+
                             $reObj = "RE: " . $object;
-                            var_dump($reObj);
                             $reply = $_POST['reply'];
-                            var_dump($reply);
-                            $oldMsgID = (int) $_GET['messageID'];
-                            var_dump($oldMsgID);
                             $newMsgID = $oldMsgID + 1;
-                            var_dump($newMsgID);
 
                             $req = 'SELECT senderID FROM message WHERE messageID = ' . $oldMsgID . '; ';
                             $newRecipientID = $db->query($req);
-                            var_dump($newRecipientID);
-
+                            var_dump($_POST);
                             if(isset($_POST['send'])) {
                                 // inserts the reply message in the database
                                 // increments the message id, gets the current timestamp, gives the sender id, sets the msg object as a reply and sends the message itself
                                 $sql = 'INSERT INTO message (messageID, messageDate, senderID, recipientID, object, message)
-                                        VALUES( ' . $newMsgID . ', datetime(), ' . $newSenderid . ', ' . $newRecipientID . ', "' . $reObj . '", "' . $reply . '" ;)';
+                                        VALUES( ' . $newMsgID . ', datetime(), ' . $newSenderid . ', ' . $newRecipientID . ', "' . $reObj . '", "' . $reply . '");';
 
                                 $ret = $db->query($sql);
-                                var_dump($sql);
+                                var_dump($ret);
                             }
-
                         ?>
                     </form>
 
