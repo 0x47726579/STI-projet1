@@ -8,7 +8,7 @@ include('fragments/header.php');
 $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
 
 // finds every message sent to this user
-$sql = 'SELECT s.username, m.recipientID, m.senderID, m.messageDate, m.object 
+$sql = 'SELECT s.username, m.recipientID, m.senderID, m.messageDate, m.object, m.messageID 
         FROM message AS m 
         INNER JOIN users AS s on s.id = m.senderID 
         INNER JOIN users as u on u.id = m.recipientID 

@@ -8,7 +8,10 @@ include('fragments/header.php');
 $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
 
 // finds the message to print from the table
-$sql = 'SELECT sender, messageDate, object, text FROM message WHERE messageID = "' . $_GET['messageID'] . '";';
+$sql = 'SELECT u.username, m.messageDate, m.object, m.message, m.messageID 
+        FROM message AS m
+        INNER JOIN users as u on u.id = m.senderID
+        WHERE messageID = "' . $_GET['messageID'] . '";';
 
 $ret = $db->query($sql);
 
@@ -40,10 +43,10 @@ $ret = $db->query($sql);
                         <tbody>
                         <?php foreach($ret as $row): ?>
                             <tr>
-                                <td> <?php echo $row['sender']?> </td>
-                                <td> <?php echo $row['date']?> </td>
+                                <td> <?php echo $row['username']?> </td>
+                                <td> <?php echo $row['messageDate']?> </td>
                                 <td> <?php echo $row['object']?> </td>
-                                <td> <?php echo $row['text']?> </td>
+                                <td> <?php echo $row['message']?> </td>
                             </tr>
                         <?php endforeach;?>
                         </tbody>
