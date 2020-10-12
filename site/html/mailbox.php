@@ -8,9 +8,17 @@ include('fragments/header.php');
 $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
 
 // finds every message sent to this user
-$sql = 'SELECT * FROM message WHERE recipient = "' . $_SESSION['login'] . '" ORDER BY messageDate;';
+$sql = 'SELECT s.username, m.recipientID, m.senderID, m.messageDate, m.object 
+        FROM message AS m 
+        INNER JOIN users AS s on s.id = m.senderID 
+        INNER JOIN users as u on u.id = m.recipientID 
+        WHERE u.username = "' . $_SESSION['login'] . '" 
+        ORDER BY messageDate;';
 
 $ret = $db->query($sql);
+
+//var_dump($ret->fetch());
+
 
 ?>
 
@@ -40,8 +48,8 @@ $ret = $db->query($sql);
                         <tbody>
                             <?php foreach($ret as $row): ?>
                             <tr>
-                                <td> <?php echo $row['sender']?> </td>
-                                <td> <?php echo $row['date']?> </td>
+                                <td> <?php echo $row['username']?> </td>
+                                <td> <?php echo $row['messageDate']?> </td>
                                 <td> <?php echo $row['object']?> </td>
                                 <td> <a href = "print_msg.php?messageID=<?php echo $row['messageID']?>"> See all </a> </td>
                                 <td> <a href = "delete_msg.php?messageID=<?php echo $row['messageID']?>"> Delete </a> </td>
