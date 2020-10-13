@@ -20,7 +20,7 @@
         $sth = $db->prepare('SELECT active FROM users WHERE username =  ?');
         $sth->execute(array($loginName));
         $result = $sth->fetchAll();
-        if ($result == 0)
+        if ($result == 0)  // booleans in SQLite are 0 or 1 integers
         {
             utils::redirect("logout.php");
         }

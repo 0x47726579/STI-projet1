@@ -18,41 +18,31 @@
                 // we clicked on "Modify" for the user's role
                 if ($_GET['modifyRole'])
                 {
-                    $userInfo = $db->query('SELECT * FROM users WHERE id = '
-                        . $_GET['id']
-                        . ';')
-                        ->fetchAll()[0];
+                    $sth = $db->prepare('SELECT * FROM users WHERE id =   ?');
+                    $sth->execute(array($_GET['id']));
+                    $userInfo = $sth->fetchAll()[0];
+                    $roles = $db->query("SELECT roleID, roleName FROM role");
+                    ?>
 
-                    echo '<h2>Modifying role for ' . $userInfo["username"]
-                        . ' </h2><hr>';
+                    <h2>Modifying role for <?= $userInfo["username"] ?></h2>
+                    <hr>
+                    <form style="float: left" action="administration.php?setRole=true" method="POST">
 
-                    $result = $db->query("SELECT * FROM role");
-                    echo '<form style="float: left" action="administration.php?setRole=true" method="POST">';
-                    foreach ($result as $row)
-                    {
-                        if ($row["roleID"] == $userInfo["roleID"])
-                        {
-                            echo '<label for="role"> '
-                                . $row["roleName"]
-                                . '<input type="radio" name="role"  value=\'{"roleID":"'
-                                . $row["roleID"]
-                                . '","userID":"'
-                                . $userInfo["id"]
-                                . '"}\' checked="checked" />
-                                  </label>';
-                        } else
-                        {
-                            echo '<label for="role"> ' . $row["roleName"]
-                                . '<input type="radio" name="role" value=\'{"roleID":"'
-                                . $row["roleID"]
-                                . '","userID":"'
-                                . $userInfo["id"]
-                                . '"}\' />
-                                  </label>';
-                        }
-                        echo '<br>';
-                    }
-                    echo '<input type="submit" name="submitForm" value="CONFIRM"/></form>';
+                        <?php foreach ($roles as $row): ?>
+                            <label for="role"><?= $row["roleName"] ?>
+                                <input type="radio"
+                                       name="role"
+                                       value='{"roleID":"<?= $row["roleID"] ?>","userID":"<?= $userInfo["id"] ?>"}'
+                                    <?php if ($row["roleID"] == $userInfo["roleID"]) echo 'checked="checked"'; ?>
+                                />
+                            </label>
+
+
+                            <br>
+                        <?php endforeach; ?>
+                        <input type="submit" name="submitForm" value="CONFIRM"/>
+                    </form>
+                    <?php
                 }
                 // we clicked on "Change password" for the user
                 if ($_GET['modifyPassword'])
@@ -63,18 +53,22 @@
                         ->fetchAll()[0];
 
                     echo '<h2>Modifying password for ' . $userInfo["username"]
-                        . ' </h2><hr>';
+                        . ' </h2>
+        <hr>
+        ';
 
-                    $result = $db->query("SELECT * FROM role");
-                    echo '<form style="float: left" action="administration.php?setPassword=true&id='
+                    $roles = $db->query("SELECT * FROM role");
+                    echo '
+        <form style="float: left" action="administration.php?setPassword=true&id='
                         . $_GET['id']
                         . '" method="POST">';
 
                     echo '<label for="password"> Enter new password : <input type="password" name="password" required/>
-                          </label>';
+            </label>';
                     echo '<br>';
 
-                    echo '<input type="submit" name="submitForm" value="CONFIRM"/></form>';
+                    echo '<input type="submit" name="submitForm" value="CONFIRM"/></form>
+        ';
                 }
                 // we clicked on "Activate/Deactivate" for the user's role
                 if ($_GET['toggle'])
@@ -130,89 +124,112 @@
 
             } else
             {
-                echo '<h2>Add a user</h2><hr>';
-
-                echo '<div class="box" style="width: 540px">
-                <form action="administration.php?addUser=true" method="POST" id="form">
-                <div class="column_one">
-                <label for="username">Username :</label>
-                    <input type="text" class="form-control" name="username" id="username" 
-                           placeholder="Enter username" required>
-                <label for="password">Password :</label>
-                    <input type="password" class="form-control" name="password" id="password"
-                           placeholder="Enter password" required>
-                <br></div>
-                <div class="column_two" style="margin-right: 285px">
-                <label for="activate">Activate :</label>
-                    <input type="checkbox" class="form-control" name="activate" id="activate" value="1"
-                           checked="checked">
-                <label for="role">Set a role :</label>
-                <select id="role" name="roles" >';
-                $result = $db->query("SELECT * FROM role");
-                foreach ($result as $row)
-                {
-                    // awfull html but it selects the last element by default this way.
-                    echo '<option value="' . $row["roleID"] . '" selected>' . $row["roleName"] . '</option>';
-
-                }
-                echo '</select> <br>   </div>     
-                <div class="column_one">   
-                <input type="submit" name="submitForm" value="ADD USER"/>
-                <input type="reset">
-                </div>
-            ';
+                echo '<h2>Add a user</h2>
+        <hr>
+        ';
 
                 echo '
-                    </form>
-                </div>';
+        <div class="box" style="width: 540px">
+            <form action="administration.php?addUser=true" method="POST" id="form">
+                <div class="column_one">
+                    <label for="username">Username :</label>
+                    <input type="text" class="form-control" name="username" id="username"
+                           placeholder="Enter username" required>
+                    <label for="password">Password :</label>
+                    <input type="password" class="form-control" name="password" id="password"
+                           placeholder="Enter password" required>
+                    <br></div>
+                <div class="column_two" style="margin-right: 285px">
+                    <label for="activate">Activate :</label>
+                    <input type="checkbox" class="form-control" name="activate" id="activate" value="1"
+                           checked="checked">
+                    <label for="role">Set a role :</label>
+                    <select id="role" name="roles">';
+                $roles = $db->query("SELECT * FROM role");
+                foreach ($roles as $row)
+                {
+                    // awfull html but it selects the last element by default this way.
+                    echo '
+                        <option value="' . $row[" roleID
+                        "] . '" selected>' . $row["roleName"] . '</option>';
 
-                $result = $db->query('SELECT * FROM users ORDER BY   roleID , active DESC , username COLLATE NOCASE ');
-                echo '<div class="box"><hr><h2>User accounts</h2>
-        <hr>
-        <table>
-            <thead>
-            <tr>
-                <th>Username</th>
-                <th>Status</th>
-                <th>Role</th>
-                <th style="border-style: hidden hidden ridge ridge;border-width: 3px;"></th>
-            </tr>
-            </thead>
-            <tbody>';
+                }
+                echo '</select> <br></div>
+                <div class="column_one">
+                    <input type="submit" name="submitForm" value="ADD USER"/>
+                    <input type="reset">
+                </div>
+                ';
 
-                foreach ($result as $row)
+                echo '
+            </form>
+        </div>
+        ';
+
+                $roles = $db->query('SELECT * FROM users ORDER BY roleID , active DESC , username COLLATE NOCASE ');
+                echo '
+        <div class="box">
+            <hr>
+            <h2>User accounts</h2>
+            <hr>
+            <table>
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Status</th>
+                    <th>Role</th>
+                    <th style="border-style: hidden hidden ridge ridge;border-width: 3px;"></th>
+                </tr>
+                </thead>
+                <tbody>';
+
+                foreach ($roles as $row)
                 {
                     echo '
-                    <tr>
-                        <td> ' . $row['username'] . ' </td>';
+                <tr>
+                    <td> ' . $row['username'] . '</td>
+                    ';
                     if ($row['active'] == 1)
                     {
-                        echo ' <td> Active <a href="administration.php?toggle=true&id='
+                        echo '
+                    <td> Active <a href="administration.php?toggle=true&id='
                             . $row['id']
-                            . '" class="btn" style="float: right;">Deactivate</a></td>';
+                            . '" class="btn" style="float: right;">Deactivate</a></td>
+                    ';
                     } else
                     {
-                        echo ' <td> Inactive <a href="administration.php?toggle=true&id='
+                        echo '
+                    <td> Inactive <a href="administration.php?toggle=true&id='
                             . $row['id']
-                            . '" class="btn" style="float: right;">Activate</a> </td>';
+                            . '" class="btn" style="float: right;">Activate</a></td>
+                    ';
                     }
 
 
                     //only works if the query is meant to return one row, otherwise you won't get the following rows.
-                    echo '<td> '
+                    echo '
+                    <td> '
                         . $db->query('SELECT roleName FROM role WHERE roleID = ' . $row['roleID'] . ';')->fetch()[0]
                         . ' <a href="administration.php?modifyRole=true&id='
                         . $row['id']
-                        . '" class="btn" style="float: right;">Modify</a> </td>';
-                    echo '<td style="border-style: solid ridge solid hidden;"> '
+                        . '" class="btn" style="float: right;">Modify</a></td>
+                    ';
+                    echo '
+                    <td style="border-style: solid ridge solid hidden;"> '
                         . ' &nbsp;&nbsp;<a href="administration.php?modifyPassword=true&id='
                         . $row['id']
-                        . '">Change password</a> </td>';
-                    echo '</tr>';
+                        . '">Change password</a></td>
+                    ';
+                    echo '
+                </tr>
+                ';
 
                 }
-                echo '</tbody>
-                </table></div>';
+                echo '
+                </tbody>
+            </table>
+        </div>
+        ';
 
             }
 
