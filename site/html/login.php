@@ -7,11 +7,12 @@
     $error = false;
     if (isset($_GET["login"]))
     {
-        sleep(2);
+        sleep(1);
         $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
-        $sql = "SELECT * from users where username = \"" . $_POST["username"] . "\";";
-
-        $result = $db->query($sql)->fetchAll()[0];
+        $sth = $db->prepare('SELECT id, username, password, active FROM users WHERE username = ?');
+        $username = $_POST["username"];
+        $sth->execute(array($username));
+        $result = $sth->fetchAll()[0];
         $id = $result['id'];
         $username = $result['username'];
         $password = $result['password'];
@@ -40,7 +41,7 @@
 <div class="right_section">
     <h2>Please login</h2>
     <hr>
-    <div class="box" style="padding-right: 390px;">
+    <div class="box" style="padding-right: 380px;">
         <form action="login.php?login=true" method="POST" id="form">
             <div class="form-group">
                 <label for="username">
@@ -58,11 +59,10 @@
             <input type="submit" name="submitForm" value="LOGIN"/>
         </form>
     </div>
-    <?php
-        if ($error) {
-            echo '<hr><p style="text-align: center">Check the credentials you entered, if it still doesn\'t work your account might be disabled...</p>';
-        }
-    ?>
+    <?php if ($error) { ?>
+        <hr><p style="text-align: center">Check the credentials you entered, if it still doesn't work your account
+            might be disabled...</p>
+    <?php } ?>
 </div>
 <!-- footer goes here -->
 <?php
