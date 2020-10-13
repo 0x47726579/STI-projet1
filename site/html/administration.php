@@ -106,7 +106,7 @@
                                 <input type="password" class="form-control" name="password" id="password"
                                        placeholder="Enter password" required>
                                 <br></div>
-                            <div class="column_two" style="margin-right: 285px">
+                            <div class="column_two" style="margin-right: 280px">
                                 <label for="activate">Activate :</label>
                                 <input type="checkbox" class="form-control" name="activate" id="activate" value="1"
                                        checked="checked">
@@ -131,8 +131,9 @@
                         </form>
                     </div>
                     <?php
-
+                    //we get all the users in the DB, because why not, the admin needs to know who's here after all ;)
                     $users = $db->query('SELECT * FROM users ORDER BY roleID , active DESC , username COLLATE NOCASE ');
+                    // a 2D array of the form [line][roleName]. one line per roleName.
                     $roleNames = $db->query('SELECT roleName FROM role')->fetchAll();
                     ?>
                     <div class="box">
@@ -162,7 +163,7 @@
                                             $activeStatus = "Inactive";
                                             $activeAction = "Activate";
                                         }
-                                        $roleID = $row['roleID'] - 1;
+                                        $roleID = $row['roleID'] - 1; // Our DB's roleID start at 1, the array at 0
                                         $roleName = $roleNames[$roleID][0];
                                         ?>
                                         <tr>
@@ -178,7 +179,7 @@
                                             <td> <?= $roleName ?><a
                                                         href="administration.php?modifyRole=true&amp;id=<?= $row['id'] ?>"
                                                         class="btn" style="float: right;">Modify</a></td>
-                                            <td style="border-style: solid ridge solid hidden;">&nbsp;&nbsp;
+                                            <td style="border-style: solid hidden solid hidden;">&nbsp;&nbsp;
                                                 <a href="administration.php?modifyPassword=true&amp;id=<?= $row['id'] ?>">
                                                     Change password
                                                 </a>

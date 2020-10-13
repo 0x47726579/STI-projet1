@@ -59,10 +59,10 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="mailbox.php">Mailbox</a></li>
                     <?php
-                        $sth = $db->prepare('SELECT r.roleName FROM role AS r INNER JOIN users AS u on u.roleID = r.roleID WHERE u.username =  ?');
+                        $sth = $db->prepare('SELECT r.roleID FROM role AS r INNER JOIN users AS u on u.roleID = r.roleID WHERE u.username =  ?');
                         $sth->execute(array($loginName));
                         $result = $sth->fetchAll();
-                        if ($result[0][0] == "admin")
+                        if ($result[0][0] == 1) // we are admin
                         { ?>
                             <li><a href="administration.php"> Administration</a></li>
                         <?php } ?>
