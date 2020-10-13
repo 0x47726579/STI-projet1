@@ -9,7 +9,7 @@
     {
         sleep(1);
         $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
-        $sth = $db->prepare('SELECT * FROM users WHERE username = ?');
+        $sth = $db->prepare('SELECT id, username, password, active FROM users WHERE username = ?');
         $username = $_POST["username"];
         $sth->execute(array($username));
         $result = $sth->fetchAll()[0];

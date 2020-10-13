@@ -17,11 +17,16 @@
             header("Location: http://$host$uri/login.php");
             exit;
         }
-    } else {
+    } else
+    {
+        $loginName = $_SESSION['login'];
+
         $db = connectDB();
-        $statement = 'SELECT active FROM users WHERE username = "' . $_SESSION['login'] . '";';
-        $result = $db->query($statement)->fetch()[0];
-        if ( $result== 0) {
+        $sth = $db->prepare('SELECT active FROM users WHERE username =  ?');
+        $sth->execute(array($loginName));
+        $result = $sth->fetchAll();
+        if ($result == 0)
+        {
             $host = $_SERVER['HTTP_HOST'];
             $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
             header("Location: http://$host$uri/logout.php");
@@ -52,31 +57,31 @@
 
         <div class="navigation">
 
-            <?php
-                if (!isset($_SESSION['login']))
-                {
-                    echo '<ul>
-                        <li><a href="/">Home</a></li>
-                        <li style="float: right;"><a href="login.php">  Login </a></li>
-                      </ul> ';
-                } else
-                {
-                    echo '<ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="mailbox.php">Mailbox</a></li>';
-                    $db = connectDB();
-                    $statement = 'SELECT r.roleName FROM role AS r INNER JOIN users AS u on u.roleID = r.roleID WHERE u.username = "' . $_SESSION['login'] . '";';
-                    $result = $db->query($statement)->fetch()[0];
-                    if ($result == "admin")
-                    {
-                        echo '<li ><a href = "administration.php" > Administration</a ></li >';
-                    }
-                    echo '<li style="float: right; border-right:#91969a dotted 0px;"><a href="logout.php">  Logout </a></li>
-                        <li style="float: right;"> Welcome ' . $_SESSION['login'] . '</li>
-                        <li style="float: right;"></li>
-                      </ul> ';
-                }
-            ?>
+            <?php if (!isset($_SESSION['login'])) { ?>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li style="float: right;"><a href="login.php"> Login </a></li>
+                </ul>
+            <?php } else { ?>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="mailbox.php">Mailbox</a></li>
+                    <?php
+                        $sth = $db->prepare('SELECT r.roleName FROM role AS r INNER JOIN users AS u on u.roleID = r.roleID WHERE u.username =  ?');
+                        $sth->execute(array($loginName));
+                        $result = $sth->fetchAll();
+                        if ($result[0][0] == "admin")
+                        {
+                            echo '<li ><a href = "administration.php" > Administration</a ></li >';
+                        }
+                    ?>
+
+                    <li style="float: right; border-right:#91969a dotted 0px;"><a href="logout.php"> Logout </a>
+                    </li>
+                    <li style="float: right;"> Welcome <?=$loginName?></li>
+                    <li style="float: right;"></li>
+                </ul>
+            <?php } ?>
         </div>
 
     </div>
