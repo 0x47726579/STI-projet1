@@ -1,245 +1,201 @@
-<!-- header goes here -->
 <?php
     include('fragments/header.php');
     $db = connectDB();
-?>
-
-
-<!-- left side bar goes here -->
-<?php
     include('fragments/left_side_bar.php');
 ?>
 
-<div class="right_section">
-    <div class="common_content">
-        <?php
-            if (isset($_GET) and $_GET != null)
-            {
-                // we clicked on "Modify" for the user's role
-                if ($_GET['modifyRole'])
+    <div class="right_section">
+        <div class="common_content">
+            <?php
+                if (isset($_GET) and $_GET != null)
                 {
                     $sth = $db->prepare('SELECT * FROM users WHERE id =   ?');
                     $sth->execute(array($_GET['id']));
                     $userInfo = $sth->fetchAll()[0];
-                    $roles = $db->query("SELECT roleID, roleName FROM role");
-                    ?>
+                    // we clicked on "Modify" for the user's role
+                    if ($_GET['modifyRole'])
+                    {
 
-                    <h2>Modifying role for <?= $userInfo["username"] ?></h2>
-                    <hr>
-                    <form style="float: left" action="administration.php?setRole=true" method="POST">
+                        $roles = $db->query("SELECT roleID, roleName FROM role");
+                        ?>
 
-                        <?php foreach ($roles as $row): ?>
-                            <label for="role"><?= $row["roleName"] ?>
-                                <input type="radio"
-                                       name="role"
-                                       value='{"roleID":"<?= $row["roleID"] ?>","userID":"<?= $userInfo["id"] ?>"}'
-                                    <?php if ($row["roleID"] == $userInfo["roleID"]) echo 'checked="checked"'; ?>
-                                />
+                        <h2>Modifying role for <?= $userInfo["username"] ?></h2>
+                        <hr>
+                        <form style="float: left" action="administration.php?setRole=true" method="POST">
+
+                            <?php foreach ($roles as $row): ?>
+                                <label for="role"><?= $row["roleName"] ?>
+                                    <input type="radio"
+                                           name="role"
+                                           value='{"roleID":"<?= $row["roleID"] ?>","userID":"<?= $userInfo["id"] ?>"}'
+                                        <?php if ($row["roleID"] == $userInfo["roleID"]) echo 'checked="checked"'; ?>
+                                    />
+                                </label>
+
+
+                                <br>
+                            <?php endforeach; ?>
+                            <input type="submit" name="submitForm" value="CONFIRM"/>
+                        </form>
+                        <?php
+                    }
+                    // we clicked on "Change password" for the user
+                    if ($_GET['modifyPassword'])
+                    { ?>
+
+                        <h2>Modifying password for <?= $userInfo["username"] ?></h2>
+                        <hr>
+                        <form style="float: left"
+                              action="administration.php?setPassword=true&amp;id=<?= $userInfo['id'] ?>" method=post>
+
+                            <label for="password"> Enter new password :
+                                <input type="password" name="password" required/>
                             </label>
-
-
                             <br>
-                        <?php endforeach; ?>
-                        <input type="submit" name="submitForm" value="CONFIRM"/>
-                    </form>
-                    <?php
-                }
-                // we clicked on "Change password" for the user
-                if ($_GET['modifyPassword'])
-                {
-                    $userInfo = $db->query('SELECT * FROM users WHERE id = '
-                        . $_GET['id']
-                        . ';')
-                        ->fetchAll()[0];
-
-                    echo '<h2>Modifying password for ' . $userInfo["username"]
-                        . ' </h2>
-        <hr>
-        ';
-
-                    $roles = $db->query("SELECT * FROM role");
-                    echo '
-        <form style="float: left" action="administration.php?setPassword=true&id='
-                        . $_GET['id']
-                        . '" method="POST">';
-
-                    echo '<label for="password"> Enter new password : <input type="password" name="password" required/>
-            </label>';
-                    echo '<br>';
-
-                    echo '<input type="submit" name="submitForm" value="CONFIRM"/></form>
-        ';
-                }
-                // we clicked on "Activate/Deactivate" for the user's role
-                if ($_GET['toggle'])
-                {
-                    $state = ($db->query('SELECT active FROM users WHERE id = '
-                                . $_GET['id']
-                                . ';')
-                                ->fetch()[0] + 1) % 2;
-                    $db->query('UPDATE users SET active = '
-                        . $state
-                        . ' WHERE id = '
-                        . $_GET['id']
-                        . ';');
-                    utils::redirect("administration.php");
-                }
-                // here we set the new role
-                if ($_GET['setRole'])
-                {
-                    $obj = json_decode($_POST["role"]);
-                    $db->query('UPDATE users SET roleID = '
-                        . $obj->roleID
-                        . ' WHERE id = '
-                        . $obj->userID
-                        . ';');
-                    utils::redirect("administration.php");
-                }
-                // here we set the new password
-                if ($_GET['setPassword'])
-                {
-                    var_dump($_POST);
-                    $db->query('UPDATE users SET password = "'
-                        . $_POST['password']
-                        . '" WHERE id = '
-                        . $_GET['id']
-                        . ';');
-                    utils::redirect("administration.php");
-                }
-                // HERE WE ADD THE USER
-                if ($_GET['addUser'])
-                {
-
-                    $db->query("INSERT INTO \"users\" (\"id\",\"username\",\"password\",\"active\",\"roleID\") VALUES (NULL,'"
-                        . $_POST['username']
-                        . "','"
-                        . $_POST['password']
-                        . "','"
-                        . (int)$_POST['activate']
-                        . "','"
-                        . $_POST['roles']
-                        . "')");
-                    utils::redirect("administration.php");
-                }
-
-            } else
-            {
-                echo '<h2>Add a user</h2>
-        <hr>
-        ';
-
-                echo '
-        <div class="box" style="width: 540px">
-            <form action="administration.php?addUser=true" method="POST" id="form">
-                <div class="column_one">
-                    <label for="username">Username :</label>
-                    <input type="text" class="form-control" name="username" id="username"
-                           placeholder="Enter username" required>
-                    <label for="password">Password :</label>
-                    <input type="password" class="form-control" name="password" id="password"
-                           placeholder="Enter password" required>
-                    <br></div>
-                <div class="column_two" style="margin-right: 285px">
-                    <label for="activate">Activate :</label>
-                    <input type="checkbox" class="form-control" name="activate" id="activate" value="1"
-                           checked="checked">
-                    <label for="role">Set a role :</label>
-                    <select id="role" name="roles">';
-                $roles = $db->query("SELECT * FROM role");
-                foreach ($roles as $row)
-                {
-                    // awfull html but it selects the last element by default this way.
-                    echo '
-                        <option value="' . $row[" roleID
-                        "] . '" selected>' . $row["roleName"] . '</option>';
-
-                }
-                echo '</select> <br></div>
-                <div class="column_one">
-                    <input type="submit" name="submitForm" value="ADD USER"/>
-                    <input type="reset">
-                </div>
-                ';
-
-                echo '
-            </form>
-        </div>
-        ';
-
-                $roles = $db->query('SELECT * FROM users ORDER BY roleID , active DESC , username COLLATE NOCASE ');
-                echo '
-        <div class="box">
-            <hr>
-            <h2>User accounts</h2>
-            <hr>
-            <table>
-                <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Status</th>
-                    <th>Role</th>
-                    <th style="border-style: hidden hidden ridge ridge;border-width: 3px;"></th>
-                </tr>
-                </thead>
-                <tbody>';
-
-                foreach ($roles as $row)
-                {
-                    echo '
-                <tr>
-                    <td> ' . $row['username'] . '</td>
-                    ';
-                    if ($row['active'] == 1)
+                            <input type="submit" name="submitForm" value="CONFIRM"/>
+                        </form>
+                    <?php }
+                    // we clicked on "Activate/Deactivate" for the user's role
+                    if ($_GET['toggle'])
                     {
-                        echo '
-                    <td> Active <a href="administration.php?toggle=true&id='
-                            . $row['id']
-                            . '" class="btn" style="float: right;">Deactivate</a></td>
-                    ';
-                    } else
+
+                        $state = ($userInfo['active'] + 1) % 2;  // if true : becomes false. And vice versa.
+                        $sth = $db->prepare('UPDATE users SET active = ? WHERE id = ? ');
+                        $sth->execute(array($state, $userInfo['id']));
+                        utils::redirect("administration.php");
+                    }
+                    // here we set the new role
+                    if ($_GET['setRole'])
                     {
-                        echo '
-                    <td> Inactive <a href="administration.php?toggle=true&id='
-                            . $row['id']
-                            . '" class="btn" style="float: right;">Activate</a></td>
-                    ';
+                        $obj = json_decode($_POST["role"]);
+                        $sth = $db->prepare('UPDATE users SET roleID = ? WHERE id = ? ');
+                        $sth->execute(array($obj->roleID, $obj->userID));
+                        utils::redirect("administration.php");
+                    }
+                    // here we set the new password
+                    if ($_GET['setPassword'])
+                    {
+                        $sth = $db->prepare('UPDATE users SET password = ? WHERE id = ? ');
+                        $sth->execute(array($_POST['password'], $userInfo['id']));
+                        utils::redirect("administration.php");
+                    }
+                    // HERE WE ADD THE USER
+                    if ($_GET['addUser'])
+                    {
+                        $username = $_POST['username'];
+                        $pwd = $_POST['password'];
+                        $active = (int)$_POST['activate'];
+                        $role = $_POST['role'];
+                        $sth = $db->prepare('INSERT INTO users ("username","password","active","roleID") VALUES ( ?, ?, ?, ?)');
+                        $sth->execute(array($username, $pwd, $active, $role));
+                        utils::redirect("administration.php");
                     }
 
+                } else
+                { ?>
 
-                    //only works if the query is meant to return one row, otherwise you won't get the following rows.
-                    echo '
-                    <td> '
-                        . $db->query('SELECT roleName FROM role WHERE roleID = ' . $row['roleID'] . ';')->fetch()[0]
-                        . ' <a href="administration.php?modifyRole=true&id='
-                        . $row['id']
-                        . '" class="btn" style="float: right;">Modify</a></td>
-                    ';
-                    echo '
-                    <td style="border-style: solid ridge solid hidden;"> '
-                        . ' &nbsp;&nbsp;<a href="administration.php?modifyPassword=true&id='
-                        . $row['id']
-                        . '">Change password</a></td>
-                    ';
-                    echo '
-                </tr>
-                ';
+                    <h2>Add a user</h2>
+                    <hr>
+                    <div class="box" style="width: 540px">
+                        <form action="administration.php?addUser=true" method="POST" id="form">
+                            <div class="column_one">
+                                <label for="username">Username :</label>
+                                <input type="text" class="form-control" name="username" id="username"
+                                       placeholder="Enter username" required>
+                                <label for="password">Password :</label>
+                                <input type="password" class="form-control" name="password" id="password"
+                                       placeholder="Enter password" required>
+                                <br></div>
+                            <div class="column_two" style="margin-right: 285px">
+                                <label for="activate">Activate :</label>
+                                <input type="checkbox" class="form-control" name="activate" id="activate" value="1"
+                                       checked="checked">
+                                <label for="role">Set a role :</label>
+                                <select id="role" name="role">
+                                    <?php
+                                        $roles = $db->query("SELECT * FROM role")->fetchAll();
+                                        $last = count($roles) - 1;
+                                        for ($i = 0; $i < count($roles); $i++) : ?>
 
-                }
-                echo '
-                </tbody>
-            </table>
+                                            <option value="<?= $roles[$i]["roleID"] ?>" <?php if ($i == $last) { ?> selected<?php } ?>>
+                                                <?= $roles[$i]["roleName"] ?>
+                                            </option>
+
+                                        <?php endfor; ?>
+
+                                </select> <br></div>
+                            <div class="column_one">
+                                <input type="submit" name="submitForm" value="ADD USER"/>
+                                <input type="reset">
+                            </div>
+                        </form>
+                    </div>
+                    <?php
+
+                    $users = $db->query('SELECT * FROM users ORDER BY roleID , active DESC , username COLLATE NOCASE ');
+                    $roleNames = $db->query('SELECT roleName FROM role')->fetchAll();
+                    ?>
+                    <div class="box">
+                        <hr>
+                        <details>
+                            <summary>Click to reveal/hide existing users</summary>
+
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Status</th>
+                                    <th>Role</th>
+                                    <th style="border-style: hidden hidden ridge ridge;border-width: 3px;"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                    foreach ($users as $row):
+
+                                        if ($row['active'])
+                                        {
+                                            $activeStatus = "Active";
+                                            $activeAction = "Deactivate";
+                                        } else
+                                        {
+                                            $activeStatus = "Inactive";
+                                            $activeAction = "Activate";
+                                        }
+                                        $roleID = $row['roleID'] - 1;
+                                        $roleName = $roleNames[$roleID][0];
+                                        ?>
+                                        <tr>
+                                            <td>
+                                                <?= $row['username'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $activeStatus ?>
+                                                <a href="administration.php?toggle=true&amp;id=<?= $row['id'] ?>"
+                                                   class="btn"
+                                                   style="float: right;"> <?= $activeAction ?></a>
+                                            </td>
+                                            <td> <?= $roleName ?><a
+                                                        href="administration.php?modifyRole=true&amp;id=<?= $row['id'] ?>"
+                                                        class="btn" style="float: right;">Modify</a></td>
+                                            <td style="border-style: solid ridge solid hidden;">&nbsp;&nbsp;
+                                                <a href="administration.php?modifyPassword=true&amp;id=<?= $row['id'] ?>">
+                                                    Change password
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </details>
+                    </div>
+                <?php } ?>
+
         </div>
-        ';
-
-            }
-
-        ?>
 
     </div>
 
-</div>
-
-<!-- footer goes here -->
+    <!-- footer goes here -->
 <?php
     include('fragments/footer.php');
 ?>
