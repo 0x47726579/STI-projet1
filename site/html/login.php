@@ -7,11 +7,12 @@
     $error = false;
     if (isset($_GET["login"]))
     {
-        sleep(2);
+        sleep(1);
         $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
-        $sql = "SELECT * from users where username = \"" . $_POST["username"] . "\";";
-
-        $result = $db->query($sql)->fetchAll()[0];
+        $sth = $db->prepare('SELECT * FROM users WHERE username = ?');
+        $username = $_POST["username"];
+        $sth->execute(array($username));
+        $result = $sth->fetchAll()[0];
         $id = $result['id'];
         $username = $result['username'];
         $password = $result['password'];
