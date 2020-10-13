@@ -76,7 +76,7 @@
                         }
                     ?>
 
-                    <li style="float: right; border-right:#91969a dotted 0px;"><a href="logout.php"> Logout </a>
+                    <li style="float: right; border-right:0;"><a href="logout.php"> Logout </a>
                     </li>
                     <li style="float: right;"> Welcome <?=$loginName?></li>
                     <li style="float: right;"></li>
