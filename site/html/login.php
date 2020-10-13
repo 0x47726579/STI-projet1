@@ -40,7 +40,7 @@
 <div class="right_section">
     <h2>Please login</h2>
     <hr>
-    <div class="box" style="padding-right: 390px;">
+    <div class="box" style="padding-right: 380px;">
         <form action="login.php?login=true" method="POST" id="form">
             <div class="form-group">
                 <label for="username">
@@ -58,11 +58,10 @@
             <input type="submit" name="submitForm" value="LOGIN"/>
         </form>
     </div>
-    <?php
-        if ($error) {
-            echo '<hr><p style="text-align: center">Check the credentials you entered, if it still doesn\'t work your account might be disabled...</p>';
-        }
-    ?>
+    <?php if ($error) { ?>
+        <hr><p style="text-align: center">Check the credentials you entered, if it still doesn't work your account
+            might be disabled...</p>
+    <?php } ?>
 </div>
 <!-- footer goes here -->
 <?php
