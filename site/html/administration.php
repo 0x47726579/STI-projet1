@@ -2,16 +2,6 @@
 <?php
     include('fragments/header.php');
     $db = connectDB();
-    function redirect()
-    {
-//        echo 'Success, you will now be redirected...';
-//        sleep(2);
-        $host = $_SERVER['HTTP_HOST'];
-        $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-        header("Location: http://$host$uri/administration.php");
-        exit;
-    }
-
 ?>
 
 
@@ -98,8 +88,7 @@
                         . ' WHERE id = '
                         . $_GET['id']
                         . ';');
-
-                    redirect();
+                    utils::redirect("administration.php");
                 }
                 // here we set the new role
                 if ($_GET['setRole'])
@@ -110,7 +99,7 @@
                         . ' WHERE id = '
                         . $obj->userID
                         . ';');
-                    redirect();
+                    utils::redirect("administration.php");
                 }
                 // here we set the new password
                 if ($_GET['setPassword'])
@@ -121,7 +110,7 @@
                         . '" WHERE id = '
                         . $_GET['id']
                         . ';');
-                    redirect();
+                    utils::redirect("administration.php");
                 }
                 // HERE WE ADD THE USER
                 if ($_GET['addUser'])
@@ -136,7 +125,7 @@
                         . "','"
                         . $_POST['roles']
                         . "')");
-                    redirect();
+                    utils::redirect("administration.php");
                 }
 
             } else

@@ -3,19 +3,14 @@
 
 <?php
     include('functions/connectDB.php');
+    include('functions/utils.php');
     session_start();
-    //var_dump($_SESSION);
 
-
-    //echo $_SERVER['PHP_SELF'];
     if (!isset($_SESSION['login']))
     { //if login in session is not set
         if ($_SERVER['PHP_SELF'] != "/login.php")
         {  // important to check if we're not redirecting login.php onto itself
-            $host = $_SERVER['HTTP_HOST'];
-            $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-            header("Location: http://$host$uri/login.php");
-            exit;
+            utils::redirect();
         }
     } else
     {
@@ -27,10 +22,7 @@
         $result = $sth->fetchAll();
         if ($result == 0)
         {
-            $host = $_SERVER['HTTP_HOST'];
-            $uri = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-            header("Location: http://$host$uri/logout.php");
-            exit;
+            utils::redirect("logout.php");
         }
     }
 
@@ -71,14 +63,13 @@
                         $sth->execute(array($loginName));
                         $result = $sth->fetchAll();
                         if ($result[0][0] == "admin")
-                        {
-                            echo '<li ><a href = "administration.php" > Administration</a ></li >';
-                        }
-                    ?>
+                        { ?>
+                            <li><a href="administration.php"> Administration</a></li>
+                        <?php } ?>
 
                     <li style="float: right; border-right:0;"><a href="logout.php"> Logout </a>
                     </li>
-                    <li style="float: right;"> Welcome <?=$loginName?></li>
+                    <li style="float: right;"> Welcome <?= $loginName ?></li>
                     <li style="float: right;"></li>
                 </ul>
             <?php } ?>
