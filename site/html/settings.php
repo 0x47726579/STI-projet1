@@ -2,8 +2,6 @@
 <?php
     include('fragments/header.php');
 
-    //    $username = $_SESSION["login"];
-
     include('fragments/left_side_bar.php');
 ?>
 
