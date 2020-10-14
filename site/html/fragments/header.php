@@ -67,8 +67,8 @@
                             <li><a href="administration.php"> Administration</a></li>
                         <?php } ?>
 
-                    <li style="float: right; border-right:0;"><a href="logout.php"> Logout </a>
-                    </li>
+                    <li style="float: right; border-right:0;"><a href="logout.php"> Logout </a></li>
+                    <li><a href="change_pwd.php">Change password</a></li>
                     <li style="float: right;"> Welcome <?= $loginName ?></li>
                     <li style="float: right;"></li>
                 </ul>
