@@ -5,7 +5,7 @@
 
 <?php
     $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
-    $oldMsgID = (int)$_REQUEST['messageID'];
+    $oldMsgID = $_REQUEST['messageID'];
     // finds the message to reply to with its id
     $sql = 'SELECT s.username, m.recipientID, m.senderID, m.messageDate, m.object, m.messageID, m.message 
         FROM message AS m 
@@ -15,6 +15,8 @@
         ORDER BY messageDate DESC;';
 
     $ret = $db->query($sql);
+
+    var_dump($oldMsgID); // this var_dump indicates the right id
 ?>
 
 
@@ -33,65 +35,78 @@
             <div class=col>
                 <table class="table">
                     <thead>
-                    <tr>
-                        <th>Sender</th>
-                        <th>Date</th>
-                        <th>Subject</th>
-                        <th>Message</th>
-                    </tr>
+                        <tr>
+                            <th>Sender</th>
+                            <th>Date</th>
+                            <th>Subject</th>
+                            <th>Message</th>
+                        </tr>
                     </thead>
                     <tbody>
                     <?php
                         foreach ($ret as $row):
-                            $sender = $row['recipientID'];
-                            $object = $row['object'];
-                            ?>
-                            <tr>
-                                <td> <?php echo $row['username'] ?> </td>
-                                <td> <?php echo $row['messageDate'] ?> </td>
-                                <td> <?php echo $row['object'] ?> </td>
-                                <td> <?php echo $row['message'] ?> </td>
-                            </tr>
-                        <?php endforeach; ?>
+                        $sender = $row['recipientID'];
+                        $object = $row['object'];
+                    ?>
+                        <tr>
+                            <td> <?php echo $row['username'] ?> </td>
+                            <td> <?php echo $row['messageDate'] ?> </td>
+                            <td> <?php echo $row['object'] ?> </td>
+                            <td> <?php echo $row['message'] ?> </td>
+                        </tr>
+                    <?php endforeach; ?>
                     </tbody>
                 </table>
 
                 <br>
-
-                <form method="post" action="?">
-                    <input type="hidden" name="oldMsgID" value=<?php echo $oldMsgID; ?>/>
+                <!-- TODO : how to get the message id of the message being replied to, so it stays on the page ???? -->
+                <form method="post" action="reply_msg.php?messageID="$oldMsgID>
+                    <input type="hidden" name="oldMsgID" value="<?php echo $oldMsgID; ?>"/>
+                    <input type="hidden" name="sender" value="<?php echo $sender; ?>"/>
+                    <input type="hidden" name="object" value="<?php echo $object; ?>"/>
                     <label for="reply">Reply :</label>
                     <textarea cols="35" rows="10" id="reply" name="reply">Type your reply here ...</textarea>
                     <br><br>
                     <input type="submit" name="send" value="Send">
 
                     <?php
-                        $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
+                        // gets the id of the sender
+                        $sth = $db->prepare("SELECT id FROM users WHERE username = ? ;");
+                        $sth->execute(array($_SESSION["login"]));
+                        $newSenderID = $sth->fetch()[0];
 
-                        $id = 'SELECT id FROM users WHERE username = "' . $_SESSION["login"] . '";';
-                        $newSenderid = $db->query($id);
-
+                        // TODO : does not get the object
                         $reObj = "RE: " . $object;
                         $reply = $_POST['reply'];
-                        $newMsgID = $oldMsgID + 1;
 
-                        $req = 'SELECT senderID FROM message WHERE messageID = ' . $oldMsgID . '; ';
-                        $newRecipientID = $db->query($req);
+                        // gets the id of the recipient
+                        // TODO : does not work
+                        $sth = $db->prepare("SELECT senderID FROM message WHERE messageID = ? ;");
+                        $sth->execute(array($oldMsgID));
+                        $newRecipientID = $sth->fetch()[0];
 
-                        $date = new DateTime();
-                        $dt = $date->format('d.m.Y H:i');
+                        $dt = new DateTime();
+                        $date = $dt->format('d.m.Y H:i');
 
-                        // TODO : here it seems the "send" is set, but the insert statement is not executed for some reason.
                         if (isset($_POST['send']))
                         {
                             // inserts the reply message in the database
-                            // increments the message id, gets the current timestamp, gives the sender id, sets the msg object as a reply and sends the message itself
-                            $sql = 'INSERT INTO message (messageID, messageDate, senderID, recipientID, object, message)
-                                        VALUES( "' . $newMsgID . '", "' . $dt . '", "' . $newSenderid . '", "' . $newRecipientID . '", "' . $reObj . '", "' . $reply . '");';
+                            // increments the message id automatically, gets the current date and time, gives the sender id, sets the msg object as
+                            // a reply and sends the message itself
+                            $sth = $db->prepare("INSERT INTO message (messageDate, senderID, recipientID, object, message)
+                                        VALUES(?, ?, ?, ?, ?);");
+                            $insert = $sth->execute(array($date, $newSenderID, $newRecipientID, $reObj, $reply));
 
-                            $ret = $db->query($sql);
-                            // this var_dump doesn't show anything
-                            var_dump($sql);
+                            var_dump($date);
+                            var_dump($newSenderID);
+                            var_dump($newRecipientID);
+                            var_dump($reObj);
+                            var_dump($reply);
+                            var_dump($sth);
+
+                            if(!$insert) {
+                                print_r("Oops ... Something went wrong! The message has not been sent.");
+                            }
                         }
                     ?>
                 </form>

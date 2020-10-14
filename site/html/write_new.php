@@ -25,6 +25,7 @@ include('fragments/left_side_bar.php');
             <label for="object" style="width: 300px">Object :
                 <input style="float: right" type="text" id="object" name="object">
             </label>
+            <!-- TODO : how to make it a "normal" textarea ? here we type the text in the middle ... -->
             <label for="message" style="width: 300px">Message :
                 <input style="float: right; height: 150px;" type="text" id="message" name="message">
             </label>
