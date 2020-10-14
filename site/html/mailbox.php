@@ -15,10 +15,6 @@
         ORDER BY messageDate DESC;';
 
     $ret = $db->query($sql);
-
-    //var_dump($ret->fetch());
-
-
 ?>
 
 
@@ -31,7 +27,11 @@
     <div class="common_content">
         <h1>
             Your mailbox
+            <form action="write_new.php">
+            <input type="submit" value="WRITE NEW">
+            </form>
         </h1>
+
         <div class=row>
             <div class=col>
                 <table class="table-bordered">
