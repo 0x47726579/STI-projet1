@@ -46,15 +46,17 @@
             <h1>STI - Project 1</h1>
             <p>This is a secure communication platform!</p>
         </div>
-
-        <div class="navigation">
-
-            <?php if (!isset($_SESSION['login'])) { ?>
+        <?php if (!isset($_SESSION['login'])) { ?>
+            <div class="navigation">
                 <ul>
                     <li><a href="/">Home</a></li>
-                    <li style="float: right;"><a href="login.php"> Login </a></li>
+                    <li><a href="login.php">Login</a></li>
                 </ul>
-            <?php } else { ?>
+            </div>
+        <?php } else { ?>
+            <h6 style="float: right; margin-top: 20px;margin-right: 10px">Welcome <?= $loginName ?>[<a
+                        href="../settings.php">Settings</a>|<a href="logout.php">Logout</a>]</h6>
+            <div class="navigation">
                 <ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="mailbox.php">Mailbox</a></li>
@@ -66,14 +68,9 @@
                         { ?>
                             <li><a href="administration.php"> Administration</a></li>
                         <?php } ?>
-
-                    <li style="float: right; border-right:0;"><a href="logout.php"> Logout </a></li>
-                    <li><a href="change_pwd.php">Change password</a></li>
-                    <li style="float: right;"> Welcome <?= $loginName ?></li>
-                    <li style="float: right;"></li>
                 </ul>
-            <?php } ?>
-        </div>
+            </div>
+        <?php } ?>
 
     </div>
     <div id="page_content">
