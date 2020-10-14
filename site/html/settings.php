@@ -48,10 +48,11 @@
                     // if the user entered the correct current password and matching new passwords, we modify the password
                     if (($check_pwd == $_POST['cur_pwd']) && ($_POST['new_pwd'] == $_POST['confirm_pwd']))
                     {
-                        if ($check_pwd != $_POST['new_pwd'])
+                        if ($check_pwd == $_POST['new_pwd'])
                         {
                             print_r("You can't reuse the same password!");
-                        } else
+                        }
+                        else
                         {
                             $sth = $db->prepare('UPDATE users SET password = ? WHERE username = ?;');
                             $res = $sth->execute(array($_POST['confirm_pwd'], $loginName));
