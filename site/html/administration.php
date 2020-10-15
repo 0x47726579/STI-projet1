@@ -21,21 +21,29 @@
 
                         <h2>Modifying role for <?= $userInfo["username"] ?></h2>
                         <hr>
-                        <form style="float: left" action="administration.php?setRole=true" method="POST">
 
-                            <?php foreach ($roles as $row): ?>
-                                <label for="role"><?= $row["roleName"] ?>
-                                    <input type="radio"
-                                           name="role"
-                                           value='{"roleID":"<?= $row["roleID"] ?>","userID":"<?= $userInfo["id"] ?>"}'
-                                        <?php if ($row["roleID"] == $userInfo["roleID"]) echo 'checked="checked"'; ?>
-                                    />
-                                </label>
+                        <form action="administration.php?setRole=true" method="POST">
+                            <div class="column_one">
+                                <?php foreach ($roles as $row): ?>
+                                    <label for="role">
+                                        <input type="radio"
+                                               name="role"
+                                               style="size: 20px"
+                                               value='{"roleID":"<?= $row["roleID"] ?>","userID":"<?= $userInfo["id"] ?>"}'
+                                            <?php if ($row["roleID"] == $userInfo["roleID"]) echo 'checked="checked"'; ?>
+                                        /><?= $row["roleName"] ?>
+                                    </label>
 
 
-                                <br>
-                            <?php endforeach; ?>
-                            <input type="submit" name="submitForm" value="CONFIRM"/>
+                                    <br>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="column_two"></div>
+
+                            <div class="column_one">
+
+                                <p><input type="submit" name="submitForm" value="CONFIRM"/></p>
+                            </div>
                         </form>
                         <?php
                     }
@@ -129,7 +137,7 @@
                             <br>
                             <select id="role"
                                     name="role"
-                            style="margin-top: 7px">
+                                    style="margin-top: 7px">
 
                                 <?php
                                     $roles = $db->query("SELECT * FROM role")->fetchAll();
@@ -165,8 +173,8 @@
                                 <thead>
                                 <tr>
                                     <th>Username</th>
-                                    <th>Status</th>
-                                    <th>Role</th>
+                                    <th colspan="2">Status</th>
+                                    <th colspan="2">Role</th>
                                     <th style="border-style: hidden hidden ridge ridge;border-width: 3px;"></th>
                                 </tr>
                                 </thead>
@@ -192,13 +200,23 @@
                                             </td>
                                             <td>
                                                 <?= $activeStatus ?>
-                                                <a href="administration.php?toggle=true&amp;id=<?= $row['id'] ?>"
-                                                   class="btn"
-                                                   style="float: right;"> <?= $activeAction ?></a>
                                             </td>
-                                            <td> <?= $roleName ?><a
-                                                        href="administration.php?modifyRole=true&amp;id=<?= $row['id'] ?>"
-                                                        class="btn" style="float: right;">Modify</a></td>
+                                            <td style="border-style: solid solid solid hidden; text-align: center;">
+                                                <a href="administration.php?toggle=true&amp;id=<?= $row['id'] ?>"
+                                                   class="btn">
+                                                    <?= $activeAction ?>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <?= $roleName ?>
+                                            </td>
+                                            <td style="border-style: solid solid solid hidden; ">
+                                                <a href="administration.php?modifyRole=true&amp;id=<?= $row['id'] ?>"
+                                                   class="btn"
+                                                   style="float: right;">
+                                                    Modify
+                                                </a>
+                                            </td>
                                             <td style="border-style: solid hidden solid hidden;">&nbsp;&nbsp;
                                                 <a href="administration.php?modifyPassword=true&amp;id=<?= $row['id'] ?>">
                                                     Change password
