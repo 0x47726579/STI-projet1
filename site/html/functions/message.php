@@ -74,7 +74,7 @@
 
         public function send_message($to, $from, $object, $content)
         {
-            $date = (new DateTime())->format('d.m.Y H:i');
+            $date = (new DateTime())->format('Y-m-d H:i:s');
             // inserts the reply message in the database
             // increments the message id automatically, gets the current date and time, gives the sender id, sets the msg object as
             // a reply and sends the message itself
