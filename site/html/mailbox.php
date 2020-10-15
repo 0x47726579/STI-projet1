@@ -2,16 +2,6 @@
     // including the header.php file allows this file to open a connection to the database
     include('fragments/header.php');
     include('fragments/left_side_bar.php');
-
-    // here we retrieve the messages sent to the user logged in
-    $sth = $db->prepare('SELECT s.username, m.recipientID, m.senderID, m.messageDate, m.object, m.messageID 
-        FROM message AS m 
-        INNER JOIN users AS s on s.id = m.senderID 
-        INNER JOIN users as u on u.id = m.recipientID 
-        WHERE u.username = ? 
-        ORDER BY messageDate DESC;');
-    $sth->execute(array($loginName));
-    $ret = $sth->fetchAll();
 ?>
 
     <div class="right_section">
@@ -152,6 +142,16 @@
                                     echo "Oops ... Something went wrong! The message has not been sent.";
                                 }
                             } // END if ($_GET['send'] && $_GET['from'])
+
+                            // here we retrieve the messages sent to the user logged in
+                            $sth = $db->prepare('SELECT s.username, m.recipientID, m.senderID, m.messageDate, m.object, m.messageID 
+                                                FROM message AS m 
+                                                INNER JOIN users AS s on s.id = m.senderID 
+                                                INNER JOIN users as u on u.id = m.recipientID 
+                                                WHERE u.username = ? 
+                                                ORDER BY messageDate DESC;');
+                            $sth->execute(array($loginName));
+                            $ret = $sth->fetchAll();
                             ?>
                             <!-- displaying the mailbox on screen and showing what actions are available -->
                             <table class="table-bordered">
