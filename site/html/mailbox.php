@@ -22,12 +22,51 @@
         <h1>
             Your mailbox
         </h1>
+        <hr>
         <div class=row>
             <div class=col>
-                <?php if (isset($_GET) && $_GET['read'])
+                <?php if (isset($_GET) && $_GET['messageID']
+                    && ($_GET['read'] || $_GET['reply']))
                 {
                     include_once('functions/message.php');
                     $message = new message($_GET['messageID']);
+
+
+                    if ($_GET['reply'])
+                    {
+                        if (isset($_POST) && $_POST['send'] == "Send")
+                        {
+                            $result = $message->send_message($message->getSenderID(),
+                                $message->getRecipientID(),
+                                "RE: " . $message->getObject(),
+                                $_POST['reply']);
+                            if ($result)
+                            {
+                                echo "Reply Sent !";
+                            } else
+                            {
+                                print_r("Oops ... Something went wrong! The message has not been sent.");
+                            }
+                        }
+
+                        ?>
+                        <form action="mailbox.php?reply=true&amp;messageID=<?= $message->getMessageID() ?>"
+                              method="POST" id="form">
+                            <input type="hidden" name="oldMsgID" value="<?php echo $message->getMessageID() ?>"/>
+                            <label for="reply"> Write a reply :</label>
+
+                            <textarea cols="100%"
+                                      rows="8"
+                                      id="reply"
+                                      name="reply"
+                                      placeholder="Type your reply here ..."
+                                      required></textarea>
+
+                            <input type="submit" name="send" value="Send">
+                        </form>
+                        <?php
+
+                    }
                     $message->print_message();
                 } else
                 { ?>
@@ -46,9 +85,12 @@
                                 <td> <?= $row['username'] ?> </td>
                                 <td> <?= $row['messageDate'] ?> </td>
                                 <td> <?= $row['object'] ?> </td>
-                                <td><a href="mailbox.php?read=true&amp;messageID=<?= $row['messageID'] ?>"> Read </a>
+                                <td><a href="mailbox.php?read=true&amp;messageID=<?= $row['messageID'] ?>">
+                                        Read </a>
                                 </td>
-                                <td><a href="reply_msg.php?messageID=<?= $row['messageID'] ?>"> Reply </a></td>
+                                <td><a href="mailbox.php?reply=true&amp;messageID=<?= $row['messageID'] ?>">
+                                        Reply </a>
+                                </td>
                                 <td><a href="delete_msg.php?messageID=<?= $row['messageID'] ?>"> Delete </a></td>
                             </tr>
                         <?php endforeach; ?>
