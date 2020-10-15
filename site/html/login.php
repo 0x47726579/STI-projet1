@@ -1,5 +1,6 @@
 <!-- header goes here -->
 <?php
+    // including the header.php file allows this file to open a connection to the database
     include('fragments/header.php');
 ?>
 
@@ -7,17 +8,20 @@
     $error = false;
     if (isset($_GET["login"]))
     {
+        // here we retrieve the user info linked to the username entered
         sleep(1);
         $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
         $sth = $db->prepare('SELECT id, username, password, active FROM users WHERE username = ?');
         $username = $_POST["username"];
         $sth->execute(array($username));
         $result = $sth->fetchAll()[0];
+
         $id = $result['id'];
         $username = $result['username'];
         $password = $result['password'];
         $active = $result['active'];
 
+        // we check if the user exists in our database, if he's active and if the password is correct
         if ($id != "" and $active and $password == $_POST["password"])
         {
             $_SESSION["login"] = $username;
@@ -28,7 +32,7 @@
             $error = true;
         }
 
-    }
+    } // END if (isset($_GET["login"]))
 
 ?>
 
@@ -37,7 +41,7 @@
     include('fragments/left_side_bar.php');
 ?>
 
-
+<!-- Displaying the login page -->
 <div class="right_section">
     <div style="height: 200px">
 
@@ -79,6 +83,7 @@
         <?php } ?>
     </div>
 </div>
+
 <!-- footer goes here -->
 <?php
     include('fragments/footer.php');

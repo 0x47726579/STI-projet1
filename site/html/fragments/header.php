@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
-
 <?php
+    // everytime another file includes this file, it gets a connection to the database
     include('functions/connectDB.php');
     include('functions/utils.php');
     session_start();
@@ -12,14 +12,14 @@
         {  // important to check if we're not redirecting login.php onto itself
             utils::redirect();
         }
-    } else
-    {
+    } else { // if login in session is set
         $loginName = $_SESSION['login'];
 
         $db = connectDB();
         $sth = $db->prepare('SELECT active, roleID FROM users WHERE username =  ?');
         $sth->execute(array($loginName));
         $result = $sth->fetchAll();
+
         if ($result[0]["active"] == 0)  // booleans in SQLite are 0 or 1 integers
         {
             utils::redirect("logout.php");
@@ -30,7 +30,7 @@
         {  // important to check if we're not redirecting login.php onto itself
             utils::redirect("");
         }
-    }
+    } // END if(isset($_SESSION['login']))
 
 ?>
 
@@ -52,6 +52,7 @@
             <h1>STI - Project 1</h1>
             <p>This is a secure communication platform!</p>
         </div>
+        <!-- if the login in session is not set, we display only the login page -->
         <?php if (!isset($_SESSION['login'])) { ?>
             <div class="navigation">
                 <ul>
@@ -60,6 +61,7 @@
                 </ul>
             </div>
         <?php } else { ?>
+            <!-- if the login in session is set, we allow access to the website's features -->
             <h6 style="float: right; margin-top: 20px;margin-right: 10px">Welcome <?= $loginName ?>[<a
                         href="../settings.php">Settings</a>|<a href="logout.php">Logout</a>]</h6>
             <div class="navigation">
@@ -70,7 +72,7 @@
                         $sth = $db->prepare('SELECT r.roleID FROM role AS r INNER JOIN users AS u on u.roleID = r.roleID WHERE u.username =  ?');
                         $sth->execute(array($loginName));
                         $result = $sth->fetchAll();
-                        if ($result[0][0] == 1) // we are admin
+                        if ($result[0][0] == 1) // if we are admin
                         { ?>
                             <li><a href="administration.php"> Administration</a></li>
                         <?php } ?>
