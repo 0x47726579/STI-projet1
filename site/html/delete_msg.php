@@ -1,21 +1,15 @@
 <!-- header goes here -->
 <?php
+    // including the header.php file allows this file to open a connection to the database
     include('fragments/header.php');
+    include('fragments/left_side_bar.php');
 ?>
 
 <?php
-
-    // finds the message to delete with its id
+    // finds the message to delete with its id, deletes it and redirects on the mailbox
     $sql = 'DELETE FROM message WHERE messageID = "' . $_GET['messageID'] . '";';
-
     $ret = $db->query($sql);
     utils::redirect("mailbox.php");
-?>
-
-
-<!-- left side bar goes here -->
-<?php
-    include('fragments/left_side_bar.php');
 ?>
 
 <div class="right_section">

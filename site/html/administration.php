@@ -1,6 +1,6 @@
 <?php
+    // including the header.php file allows this file to open a connection to the database
     include('fragments/header.php');
-    $db = connectDB();
     include('fragments/left_side_bar.php');
 ?>
 
@@ -15,7 +15,6 @@
                     // we clicked on "Modify" for the user's role
                     if ($_GET['modifyRole'])
                     {
-
                         $roles = $db->query("SELECT roleID, roleName FROM role");
                         ?>
 
@@ -25,6 +24,7 @@
                         <form action="administration.php?setRole=true" method="POST">
                             <div class="column_one">
                                 <?php foreach ($roles as $row): ?>
+
                                     <label for="role">
                                         <input type="radio"
                                                name="role"
@@ -33,20 +33,19 @@
                                             <?php if ($row["roleID"] == $userInfo["roleID"]) echo 'checked="checked"'; ?>
                                         /><?= $row["roleName"] ?>
                                     </label>
-
-
                                     <br>
+
                                 <?php endforeach; ?>
                             </div>
                             <div class="column_two"></div>
 
                             <div class="column_one">
-
                                 <p><input type="submit" name="submitForm" value="CONFIRM"/></p>
                             </div>
+
                         </form>
                         <?php
-                    }
+                    } // END if ($_GET['modifyRole'])
                     // we clicked on "Change password" for the user
                     if ($_GET['modifyPassword'])
                     { ?>
@@ -62,11 +61,11 @@
                             <br>
                             <input type="submit" name="submitForm" value="CONFIRM"/>
                         </form>
+
                     <?php }
                     // we clicked on "Activate/Deactivate" for the user's role
                     if ($_GET['toggle'])
                     {
-
                         $state = ($userInfo['active'] + 1) % 2;  // if true : becomes false. And vice versa.
                         $sth = $db->prepare('UPDATE users SET active = ? WHERE id = ? ');
                         $sth->execute(array($state, $userInfo['id']));
@@ -87,7 +86,7 @@
                         $sth->execute(array($_POST['password'], $userInfo['id']));
                         utils::redirect("administration.php");
                     }
-                    // HERE WE ADD THE USER
+                    // here we add the user
                     if ($_GET['addUser'])
                     {
                         $username = $_POST['username'];
@@ -99,12 +98,11 @@
                         utils::redirect("administration.php");
                     }
 
-                } else
+                } else // if !(isset($_GET) and $_GET != null)
                 { ?>
-
+                    <!-- Displaying the page with all the informations for the admin -->
                     <h2>Add a user</h2>
                     <hr>
-
 
                     <form action="administration.php?addUser=true" method="POST" id="form">
                         <div class="column_one">

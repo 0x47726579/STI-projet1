@@ -1,17 +1,11 @@
 <!-- header goes here -->
 <?php
-include('fragments/header.php');
+    // including the header.php file allows this file to open a connection to the database
+    include('fragments/header.php');
+    include('fragments/left_side_bar.php');
 ?>
 
-<?php
-$db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
-?>
-
-<!-- left side bar goes here -->
-<?php
-include('fragments/left_side_bar.php');
-?>
-
+<!-- Displays the boxes to write a new e-mail -->
 <div class="right_section">
     <div class="common_content">
         <h1>
@@ -25,11 +19,9 @@ include('fragments/left_side_bar.php');
             <label for="object" style="width: 300px">Object :
                 <input style="float: right" type="text" id="object" name="object">
             </label>
-            <!-- TODO : how to make it a "normal" textarea ? here we type the text in the middle ... -->
             <label for="message" style="width: 300px">Message :
                 <input style="float: right; height: 150px;" type="text" id="message" name="message">
             </label>
-            <!-- TODO : put this button on the right ... -->
             <input style="float: right" type="submit" name="send" value="Send">
         </form>
 
@@ -64,7 +56,7 @@ include('fragments/left_side_bar.php');
                     print_r("This user does not use this website. Please enter another user.");
                 }
 
-            }
+            } // END if (isset($_POST['send']))
         ?>
 
     </div>

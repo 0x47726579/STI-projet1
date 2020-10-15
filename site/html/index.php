@@ -3,12 +3,11 @@
     include('fragments/header.php');
 ?>
 
-
 <!-- left side bar goes here -->
 <?php
     include('fragments/left_side_bar.php');
 ?>
-
+<!-- Welcomes the user and tells him what this website does -->
 <div class="right_section">
     <div class="common_content">
         <h2>Welcome</h2>

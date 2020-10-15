@@ -1,10 +1,9 @@
-<!-- header goes here -->
 <?php
+    // including the header.php file allows this file to open a connection to the database
     include('fragments/header.php');
-
-
     include('fragments/left_side_bar.php');
 
+    // here we retrieve the messages sent to the user logged in
     $sth = $db->prepare('SELECT s.username, m.recipientID, m.senderID, m.messageDate, m.object, m.messageID 
         FROM message AS m 
         INNER JOIN users AS s on s.id = m.senderID 
@@ -13,11 +12,9 @@
         ORDER BY messageDate DESC;');
     $sth->execute(array($loginName));
     $ret = $sth->fetchAll();
-    //    var_dump($ret);
 ?>
+
 <div class="right_section">
-
-
     <div class="common_content">
         <h1>
             Your mailbox
@@ -26,15 +23,14 @@
         <div class=row>
             <div class=col>
                 <?php
-                    // if we're not simply looking at the mailbox we want to do an action :
-                    // either read a mail, or reply to one
-                    // this is done through different GET variables set to true.
+                    // if we're not simply looking at the mailbox, we want to do an action :
+                    // either read an e-mail or reply to one
+                    // this is done through different GET variables set to true
                     if (isset($_GET) && $_GET['messageID']
                         && ($_GET['read'] || $_GET['reply']))
                     {
                         include_once('functions/message.php');
                         $message = new message($_GET['messageID']);
-
 
                         if ($_GET['reply'])
                         {
@@ -48,8 +44,7 @@
                                 if ($result)
                                 {
                                     echo "Reply Sent !";
-                                } else
-                                {
+                                } else {
                                     print_r("Oops ... Something went wrong! The message has not been sent.");
                                 }
                             }
@@ -70,9 +65,9 @@
 
                                 <input type="submit" name="send" value="Send">
                             </form>
-                            <?php
 
-                        }
+                            <?php
+                        } // END if ($_GET['reply'])
                         // we show the message we're either replying to or wanting to read
                         $message->print_message();
                         if ($_GET['read'])
@@ -85,8 +80,9 @@
 
                             <?php
                         }
-                    } else
+                    } else // if no action is selected by the user
                     { ?>
+                        <!-- displaying the mailbox on screen and showing what actions are available -->
                         <table class="table-bordered">
                             <thead>
                             <tr>
