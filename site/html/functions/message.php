@@ -72,7 +72,7 @@
         }
 
 
-        public function send_message($to, $from, $object, $content)
+        public static function send_message($to, $from, $object, $content)
         {
             $date = (new DateTime())->format('Y-m-d H:i:s');
             // inserts the reply message in the database
