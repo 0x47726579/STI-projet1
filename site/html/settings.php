@@ -19,7 +19,7 @@
                     <input type="password"
                            name="cur_pwd"
                            value="<?= $_POST['cur_pwd'] ?>"
-                           style="margin-left: 15px"
+                           style="margin-left: 17px"
                            required/>
                 </label>
                 <br>
