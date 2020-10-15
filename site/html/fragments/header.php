@@ -17,12 +17,18 @@
         $loginName = $_SESSION['login'];
 
         $db = connectDB();
-        $sth = $db->prepare('SELECT active FROM users WHERE username =  ?');
+        $sth = $db->prepare('SELECT active, roleID FROM users WHERE username =  ?');
         $sth->execute(array($loginName));
         $result = $sth->fetchAll();
-        if ($result == 0)  // booleans in SQLite are 0 or 1 integers
+        if ($result[0]["active"] == 0)  // booleans in SQLite are 0 or 1 integers
         {
             utils::redirect("logout.php");
+        }
+
+        // we don't want someone who isn't admin (roleID 1)
+        if (substr($_SERVER['PHP_SELF'], 0, 15) == "/administration" && $result[0]["roleID"] != 1)
+        {  // important to check if we're not redirecting login.php onto itself
+            utils::redirect("");
         }
     }
 
@@ -46,15 +52,17 @@
             <h1>STI - Project 1</h1>
             <p>This is a secure communication platform!</p>
         </div>
-
-        <div class="navigation">
-
-            <?php if (!isset($_SESSION['login'])) { ?>
+        <?php if (!isset($_SESSION['login'])) { ?>
+            <div class="navigation">
                 <ul>
                     <li><a href="/">Home</a></li>
-                    <li style="float: right;"><a href="login.php"> Login </a></li>
+                    <li><a href="login.php">Login</a></li>
                 </ul>
-            <?php } else { ?>
+            </div>
+        <?php } else { ?>
+            <h6 style="float: right; margin-top: 20px;margin-right: 10px">Welcome <?= $loginName ?>[<a
+                        href="../settings.php">Settings</a>|<a href="logout.php">Logout</a>]</h6>
+            <div class="navigation">
                 <ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="mailbox.php">Mailbox</a></li>
@@ -66,14 +74,9 @@
                         { ?>
                             <li><a href="administration.php"> Administration</a></li>
                         <?php } ?>
-
-                    <li style="float: right; border-right:0;"><a href="logout.php"> Logout </a>
-                    </li>
-                    <li style="float: right;"> Welcome <?= $loginName ?></li>
-                    <li style="float: right;"></li>
                 </ul>
-            <?php } ?>
-        </div>
+            </div>
+        <?php } ?>
 
     </div>
     <div id="page_content">

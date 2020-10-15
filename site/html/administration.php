@@ -96,40 +96,60 @@
 
                     <h2>Add a user</h2>
                     <hr>
-                    <div class="box" style="width: 540px">
-                        <form action="administration.php?addUser=true" method="POST" id="form">
-                            <div class="column_one">
-                                <label for="username">Username :</label>
-                                <input type="text" class="form-control" name="username" id="username"
-                                       placeholder="Enter username" required>
-                                <label for="password">Password :</label>
-                                <input type="password" class="form-control" name="password" id="password"
-                                       placeholder="Enter password" required>
-                                <br></div>
-                            <div class="column_two" style="margin-right: 280px">
-                                <label for="activate">Activate :</label>
-                                <input type="checkbox" class="form-control" name="activate" id="activate" value="1"
-                                       checked="checked">
-                                <label for="role">Set a role :</label>
-                                <select id="role" name="role">
-                                    <?php
-                                        $roles = $db->query("SELECT * FROM role")->fetchAll();
-                                        $last = count($roles) - 1;
-                                        for ($i = 0; $i < count($roles); $i++) : ?>
 
-                                            <option value="<?= $roles[$i]["roleID"] ?>" <?php if ($i == $last) { ?> selected<?php } ?>>
-                                                <?= $roles[$i]["roleName"] ?>
-                                            </option>
 
-                                        <?php endfor; ?>
+                    <form action="administration.php?addUser=true" method="POST" id="form">
+                        <div class="column_one">
+                            <label for="username">Username :
+                                <input type="text"
+                                       name="username"
+                                       id="username"
+                                       placeholder="Enter username"
+                                       style="margin-left: 30px"
+                                       required>
+                            </label>
+                            <label for="password">Password :
+                                <input type="password"
+                                       name="password"
+                                       id="password"
+                                       placeholder="Enter password"
+                                       style="margin-left: 33px"
+                                       required>
+                            </label>
+                        </div>
+                        <div class="column_two">
+                            <input type="checkbox"
+                                   name="activate"
+                                   id="activate"
+                                   value="1"
+                                   class="css-checkbox"
+                                   checked="checked">
+                            <label for="activate" style="width: 280px" class="css-label">Enable account
+                            </label>
+                            <br>
+                            <select id="role"
+                                    name="role"
+                            style="margin-top: 7px">
 
-                                </select> <br></div>
-                            <div class="column_one">
-                                <input type="submit" name="submitForm" value="ADD USER"/>
-                                <input type="reset">
-                            </div>
-                        </form>
-                    </div>
+                                <?php
+                                    $roles = $db->query("SELECT * FROM role")->fetchAll();
+                                    $last = count($roles) - 1;
+                                    for ($i = 0; $i < count($roles); $i++) : ?>
+
+                                        <option value="<?= $roles[$i]["roleID"] ?>" <?php if ($i == $last) { ?> selected<?php } ?>>
+                                            <?= $roles[$i]["roleName"] ?>
+                                        </option>
+
+                                    <?php endfor; ?>
+
+                            </select>
+                            <label for="role">Account role</label>
+                        </div>
+                        <div class="column_one">
+                            <input type="submit" name="submitForm" value="ADD USER"/>
+                            <input type="reset">
+                        </div>
+                    </form>
                     <?php
                     //we get all the users in the DB, because why not, the admin needs to know who's here after all ;)
                     $users = $db->query('SELECT * FROM users ORDER BY roleID , active DESC , username COLLATE NOCASE ');

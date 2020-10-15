@@ -12,7 +12,7 @@
  -->
 <!-- header goes here -->
 <?php
-include('fragments/header.php');
+    include('fragments/header.php');
 ?>
 
 <div id="page_content">
@@ -20,7 +20,7 @@ include('fragments/header.php');
 
     <!-- left side bar goes here -->
     <?php
-    include('fragments/left_side_bar.php');
+        include('fragments/left_side_bar.php');
     ?>
 
 
@@ -65,5 +65,5 @@ include('fragments/header.php');
 
     <!-- footer goes here -->
 <?php
-include('fragments/footer.php');
+    include('fragments/footer.php');
 ?>

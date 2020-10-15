@@ -3,6 +3,15 @@
     include('fragments/header.php');
 ?>
 
+<?php
+
+    // finds the message to delete with its id
+    $sql = 'DELETE FROM message WHERE messageID = "' . $_GET['messageID'] . '";';
+
+    $ret = $db->query($sql);
+    utils::redirect("mailbox.php");
+?>
+
 
 <!-- left side bar goes here -->
 <?php
@@ -11,14 +20,18 @@
 
 <div class="right_section">
     <div class="common_content">
-        <h2>Welcome</h2>
+        <h1>
+            Your mailbox
+        </h1>
         <hr>
-        <p>This website lets you send and receive messages!</p>
+        <h2>
+            Message deleted
+        </h2>
     </div>
-
 </div>
 
 <!-- footer goes here -->
 <?php
     include('fragments/footer.php');
 ?>
+
