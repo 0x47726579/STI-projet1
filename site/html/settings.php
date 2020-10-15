@@ -7,9 +7,9 @@
 
 <div class="right_section">
     <div style="height: 200px">
-        <h1>
+        <h2>
             Change your password
-        </h1>
+        </h2>
         <hr>
         <form style="float: left" method="post">
             <input type="hidden" name="username" value="<?= $loginName; ?>"/>

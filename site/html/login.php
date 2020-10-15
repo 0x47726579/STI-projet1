@@ -39,30 +39,31 @@
 
 
 <div class="right_section">
-    <h2>Please login</h2>
-    <hr>
-    <div class="box" style="padding-right: 380px;">
-        <form action="login.php?login=true" method="POST" id="form">
-            <div class="form-group">
-                <label for="username">
-                    Username :
-                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="password">
-                    Password :
-                    <input type="password" class="form-control" name="password" id="password"
-                           placeholder="Enter password">
-                </label>
-            </div>
-            <input type="submit" name="submitForm" value="LOGIN"/>
+    <div style="height: 200px">
+        <h2>Please login</h2>
+        <hr>
+        <div class="column_one">
+        <form style=" float: left
+        " action="login.php?login=true" method="POST" id="form">
+        <label for="username" style="width: 280px">
+            Username :
+            <input style="float: right" type="text" name="username" id="username"
+                   placeholder="Enter username">
+        </label>
+        <label for="password" style="width: 280px">
+            Password :
+            <input style="float: right" type="password" name="password" id="password"
+                   placeholder="Enter password">
+        </label>
+        <input type="submit" name="submitForm" value="LOGIN"/>
         </form>
     </div>
-    <?php if ($error) { ?>
-        <hr><p style="text-align: center">Check the credentials you entered, if it still doesn't work your account
-            might be disabled...</p>
-    <?php } ?>
+    <div class="column_two">
+        <?php if ($error) { ?>
+            <p style="text-align: left; line-height: 32px; margin-left: 310px">Check the credentials you entered, if it still doesn't work your account
+                might be disabled...</p>
+        <?php } ?>
+    </div>
 </div>
 <!-- footer goes here -->
 <?php
