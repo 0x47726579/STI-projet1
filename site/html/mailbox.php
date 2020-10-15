@@ -143,7 +143,7 @@
                             {
                                 include_once('functions/message.php');
 
-                                if (message::send_message($_POST['sender'], $_POST['recipient'], $_POST['object'], $_POST['content']))
+                                if (message::send_message($_POST['recipient'], $_POST['sender'], $_POST['object'], $_POST['content']))
                                 {
                                     echo "Reply Sent !";
                                 }
