@@ -40,27 +40,41 @@
 
 <div class="right_section">
     <div style="height: 200px">
+
         <h2>Please login</h2>
         <hr>
-        <div class="column_one">
         <form style=" float: left
         " action="login.php?login=true" method="POST" id="form">
-        <label for="username" style="width: 280px">
-            Username :
-            <input style="float: right" type="text" name="username" id="username"
-                   placeholder="Enter username">
-        </label>
-        <label for="password" style="width: 280px">
-            Password :
-            <input style="float: right" type="password" name="password" id="password"
-                   placeholder="Enter password">
-        </label>
-        <input type="submit" name="submitForm" value="LOGIN"/>
+            <div class="column_one">
+                <label for="username">
+                    Username :
+                    <input type="text"
+                           name="username"
+                           id="username"
+                           placeholder="Enter username"
+                           style="margin-left: 30px"
+                           required>
+                </label>
+                <label for="password">
+                    Password :
+                    <input type="password"
+                           name="password"
+                           id="password"
+                           placeholder="Enter password"
+                           style="margin-left: 33px"
+                           required>
+                </label>
+            </div>
+            <div class="column_two">
+            </div>
+            <div class="column_one">
+                <input type="submit" name="submitForm" value="LOGIN"/>
+            </div>
         </form>
-    </div>
-    <div class="column_two">
+
         <?php if ($error) { ?>
-            <p style="text-align: left; line-height: 32px; margin-left: 310px">Check the credentials you entered, if it still doesn't work your account
+            <p style="text-align: left; line-height: 32px; margin-left: 310px">Check the credentials you entered, if
+                it still doesn't work your account
                 might be disabled...</p>
         <?php } ?>
     </div>

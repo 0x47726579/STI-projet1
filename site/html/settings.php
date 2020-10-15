@@ -11,22 +11,39 @@
             Change your password
         </h2>
         <hr>
-        <form style="float: left" method="post">
-            <input type="hidden" name="username" value="<?= $loginName; ?>"/>
-            <!-- TODO : change CSS to have labels aligned -->
-            <label for="cur_pwd" style="width: 390px"> Enter current password :
-                <input style="float: right" type="password" name="cur_pwd" value="<?= $_POST['cur_pwd'] ?>" required/>
-            </label>
-            <br>
-            <label for="new_pwd" style="width: 390px"> Enter new password :
-                <input style="float: right" type="password" name="new_pwd" value="<?= $_POST['new_pwd'] ?>" required/>
-            </label>
-            <br>
-            <label for="confirm_pwd" style="width: 390px"> Confirm new password :
-                <input style="float: right" type="password" name="confirm_pwd" value="<?= $_POST['confirm_pwd'] ?>" required/>
-            </label>
-
-            <input type="submit" name="confirm" value="CONFIRM"/>
+        <form method="post">
+            <div class="column_one" style="width: 80%">
+                <input type="hidden" name="username" value="<?= $loginName; ?>"/>
+                <!-- TODO : change CSS to have labels aligned -->
+                <label for="cur_pwd"> Enter current password :
+                    <input type="password"
+                           name="cur_pwd"
+                           value="<?= $_POST['cur_pwd'] ?>"
+                           style="margin-left: 15px"
+                           required/>
+                </label>
+                <br>
+                <label for="new_pwd"> Enter new password :
+                    <input type="password"
+                           name="new_pwd"
+                           value="<?= $_POST['new_pwd'] ?>"
+                           style="margin-left: 37px"
+                           required/>
+                </label>
+                <br>
+                <label for="confirm_pwd"> Confirm new password :
+                    <input type="password"
+                           name="confirm_pwd"
+                           value="<?= $_POST['confirm_pwd'] ?>"
+                           style="margin-left: 22px"
+                           required/>
+                </label>
+            </div>
+            <div class="column_two" style="width: 19%">
+            </div>
+            <div class="column_one" style="float: left">
+                <input type="submit" name="confirm" value="CONFIRM"/>
+            </div>
         </form>
     </div>
 

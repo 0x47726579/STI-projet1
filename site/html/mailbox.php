@@ -99,16 +99,24 @@
                             <tbody>
                             <?php foreach ($ret as $row): ?>
                                 <tr>
-                                    <td> <?= $row['username'] ?> </td>
-                                    <td> <?= $row['messageDate'] ?> </td>
-                                    <td> <?= $row['object'] ?> </td>
+                                    <td rowspan="4"> <?= $row['username'] ?> </td>
+                                    <td rowspan="4"> <?= $row['messageDate'] ?> </td>
+                                    <td rowspan="4"> <?= $row['object'] ?> </td>
+                                </tr>
+                                <tr align="center">
                                     <td><a href="mailbox.php?read=true&amp;messageID=<?= $row['messageID'] ?>">
                                             Read </a>
                                     </td>
+                                </tr>
+                                <tr align="center">
                                     <td><a href="mailbox.php?reply=true&amp;messageID=<?= $row['messageID'] ?>">
                                             Reply </a>
                                     </td>
-                                    <td><a href="delete_msg.php?messageID=<?= $row['messageID'] ?>"> Delete </a></td>
+                                </tr>
+                                <tr align="center">
+                                    <td><a href="delete_msg.php?messageID=<?= $row['messageID'] ?>">
+                                            Delete </a>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
