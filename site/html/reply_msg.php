@@ -3,19 +3,6 @@
     include('fragments/header.php');
 ?>
 
-<?php
-    $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
-    $oldMsgID = (int)$_REQUEST['messageID'];
-    // finds the message to reply to with its id
-    $sql = 'SELECT s.username, m.recipientID, m.senderID, m.messageDate, m.object, m.messageID, m.message 
-        FROM message AS m 
-        INNER JOIN users AS s on s.id = m.senderID 
-        INNER JOIN users as u on u.id = m.recipientID 
-        WHERE m.messageID = ' . $oldMsgID . ' 
-        ORDER BY messageDate DESC;';
-
-    $ret = $db->query($sql);
-?>
 
 
 <!-- left side bar goes here -->
@@ -31,30 +18,9 @@
         <!-- print the message we want to reply to -->
         <div class=row>
             <div class=col>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Sender</th>
-                        <th>Date</th>
-                        <th>Subject</th>
-                        <th>Message</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                        foreach ($ret as $row):
-                            $sender = $row['recipientID'];
-                            $object = $row['object'];
-                            ?>
-                            <tr>
-                                <td> <?php echo $row['username'] ?> </td>
-                                <td> <?php echo $row['messageDate'] ?> </td>
-                                <td> <?php echo $row['object'] ?> </td>
-                                <td> <?php echo $row['message'] ?> </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                <?php
+                    include('print_msg.php');
+                ?>
 
                 <br>
 
@@ -101,8 +67,6 @@
         </div>
     </div>
 </div>
-</div>
-
 <!-- footer goes here -->
 <?php
     include('fragments/footer.php');

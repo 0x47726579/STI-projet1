@@ -15,18 +15,20 @@
     $ret = $sth->fetchAll();
     //    var_dump($ret);
 ?>
-<?php if (isset($_GET) && $_GET['read'])
-{
-    include_once('print_msg.php');
-} else
-{ ?>
-    <div class="right_section">
-        <div class="common_content">
-            <h1>
-                Your mailbox
-            </h1>
-            <div class=row>
-                <div class=col>
+<div class="right_section">
+
+
+    <div class="common_content">
+        <h1>
+            Your mailbox
+        </h1>
+        <div class=row>
+            <div class=col>
+                <?php if (isset($_GET) && $_GET['read'])
+                {
+                    include_once('print_msg.php');
+                } else
+                { ?>
                     <table class="table-bordered">
                         <thead>
                         <tr>
@@ -50,11 +52,13 @@
                         <?php endforeach; ?>
                         </tbody>
                     </table>
-                </div>
+                <?php } ?>
             </div>
         </div>
     </div>
-<?php } ?>
+
+</div>
+
 <!-- footer goes here -->
 <?php
     include('fragments/footer.php');

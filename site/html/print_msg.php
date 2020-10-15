@@ -10,38 +10,27 @@
 
 ?>
 
-<div class="right_section">
-    <div class="common_content">
-        <h1>
-            Your mailbox
-        </h1>
-        <div class=row>
-            <div class=col>
-                <table class="table-bordered">
-                    <?php foreach ($ret as $row): ?>
 
-                        <thead>
-                        <tr>
-                            <th>Subject :</th>
-                            <td colspan="3"> <?php echo $row['object'] ?> </td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th>From :</th>
-                            <td> <?php echo $row['username'] ?> </td>
-                            <th>Sent :</th>
-                            <td> <?php echo $row['messageDate'] ?> </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4"> <?php echo $row['message'] ?> </td>
-                        </tr>
-                        </tbody>
-                    <?php endforeach; ?>
-                </table>
+            <table class="table-bordered">
+                <?php foreach ($ret as $row): ?>
 
+                    <thead>
+                    <tr>
+                        <th>Subject :</th>
+                        <td colspan="3"> <?php echo $row['object'] ?> </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>From :</th>
+                        <td> <?php echo $row['username'] ?> </td>
+                        <th>Sent :</th>
+                        <td> <?php echo $row['messageDate'] ?> </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"> <?php echo $row['message'] ?> </td>
+                    </tr>
+                    </tbody>
+                <?php endforeach; ?>
+            </table>
 
-            </div>
-        </div>
-    </div>
-</div>
