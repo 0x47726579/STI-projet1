@@ -27,7 +27,7 @@
                 ?>
                 <br>
                 <form action="reply_msg.php?reply=true&amp;messageID=<?= $oldMsgID ?>" method="POST" id="form">
-                    <input type="hidden" name="oldMsgID" value="<?= $oldMsgID ?>"/>
+                    <input type="hidden" name="oldMsgID" value="<?php echo $oldMsgID; ?>"/>
                     <label for="reply">Write a reply :</label>
 
                     <textarea cols="100%"
@@ -42,31 +42,29 @@
 
                     <?php
 
-                        $id = 'SELECT id FROM users WHERE username = "' . $_SESSION["login"] . '";';
-                        $newSenderid = $db->query($id)->fetch()[0];
-                        print $newSenderid;
+                        $newSenderID = $message->getRecipientID();
+                        $reObj = "RE: " . $message->getObject();
+                        $newRecipientID = $message->getSenderID();
 
-                        var_dump($_POST);
-                        $reObj = "RE: " . $object;
-                        var_dump($reObj);
-                        $reply = $_POST['reply'];
-                        $newMsgID = $oldMsgID + 1;
-
-                        $req = 'SELECT senderID FROM message WHERE messageID = ' . $oldMsgID . '; ';
-                        $newRecipientID = $db->query($req)->fetch()[0];
+                        // DEBUG STRINGS
+                        print "[" . $newSenderID . "]" . $message->getRecipientName() . PHP_EOL;
+                        print($reObj.PHP_EOL);
                         print $newRecipientID;
+
+                        $reply = $_POST['reply'];
                         $date = new DateTime();
                         $dt = $date->format('d.m.Y H:i');
+                        print $dt;
 
                         // TODO : here it seems the "send" is set, but the insert statement is not executed for some reason.
-                        if (isset($_POST['send']))
+                        if ($_GET['reply'])
                         {
                             // inserts the reply message in the database
                             // increments the message id automatically, gets the current date and time, gives the sender id, sets the msg object as
                             // a reply and sends the message itself
                             $sth = $db->prepare("INSERT INTO message (messageDate, senderID, recipientID, object, message)
                                         VALUES(?, ?, ?, ?, ?);");
-                            $insert = $sth->execute(array($date, $newSenderID, $newRecipientID, $reObj, $reply));
+                            $insert = $sth->execute(array($dt, $newSenderID, $newRecipientID, $reObj, $reply));
 
                             var_dump($date);
                             var_dump($newSenderID);
