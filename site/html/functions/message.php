@@ -40,6 +40,19 @@
             $this->content = $ret['message'];
         }
 
+        public static function send_message($to, $from, $object, $content)
+        {
+            $date = (new DateTime())->format('Y-m-d H:i:s');
+            // inserts the reply message in the database
+            // increments the message id automatically, gets the current date and time, gives the sender id, sets the msg object as
+            // a reply and sends the message itself
+            $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
+            $sth = $db->prepare("INSERT INTO message (messageDate, senderID, recipientID, object, message)
+                                        VALUES(?, ?, ?, ?, ?);");
+            return $sth->execute(array($date, $from, $to, $object, $content));
+
+        }
+
         public function print_message()
         {
 
@@ -68,20 +81,6 @@
             </table>
 
             <?php
-
-        }
-
-
-        public static function send_message($to, $from, $object, $content)
-        {
-            $date = (new DateTime())->format('Y-m-d H:i:s');
-            // inserts the reply message in the database
-            // increments the message id automatically, gets the current date and time, gives the sender id, sets the msg object as
-            // a reply and sends the message itself
-            $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
-            $sth = $db->prepare("INSERT INTO message (messageDate, senderID, recipientID, object, message)
-                                        VALUES(?, ?, ?, ?, ?);");
-            return $sth->execute(array($date, $from, $to, $object, $content));
 
         }
 

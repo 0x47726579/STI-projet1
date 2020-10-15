@@ -12,7 +12,9 @@
         {  // important to check if we're not redirecting login.php onto itself
             utils::redirect();
         }
-    } else { // if login in session is set
+    }
+    else
+    { // if login in session is set
         $loginName = $_SESSION['login'];
 
         $db = connectDB();

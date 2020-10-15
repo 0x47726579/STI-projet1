@@ -30,7 +30,9 @@
                                                name="role"
                                                style="size: 20px"
                                                value='{"roleID":"<?= $row["roleID"] ?>","userID":"<?= $userInfo["id"] ?>"}'
-                                            <?php if ($row["roleID"] == $userInfo["roleID"]) echo 'checked="checked"'; ?>
+                                            <?php if ($row["roleID"] == $userInfo["roleID"]) {
+                                                echo 'checked="checked"';
+                                            } ?>
                                         /><?= $row["roleName"] ?>
                                     </label>
                                     <br>
@@ -98,7 +100,8 @@
                         utils::redirect("administration.php");
                     }
 
-                } else // if !(isset($_GET) and $_GET != null)
+                }
+                else // if !(isset($_GET) and $_GET != null)
                 { ?>
                     <!-- Displaying the page with all the informations for the admin -->
                     <h2>Add a user</h2>
@@ -184,7 +187,8 @@
                                         {
                                             $activeStatus = "Active";
                                             $activeAction = "Deactivate";
-                                        } else
+                                        }
+                                        else
                                         {
                                             $activeStatus = "Inactive";
                                             $activeAction = "Activate";

@@ -27,7 +27,8 @@
             $_SESSION["login"] = $username;
             header('Location: index.php');
             exit;
-        } else
+        }
+        else
         {
             $error = true;
         }

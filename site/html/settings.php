@@ -79,7 +79,8 @@
                                 print_r("Something went wrong, the password could not be changed");
                             }
                         }
-                    } else // if the new passwords do not match and/or the current password is wrong
+                    }
+                    else // if the new passwords do not match and/or the current password is wrong
                     {
                         print_r("The passwords you entered do not match and/or your password is incorrect");
                     }
