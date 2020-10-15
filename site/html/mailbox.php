@@ -26,7 +26,9 @@
             <div class=col>
                 <?php if (isset($_GET) && $_GET['read'])
                 {
-                    include_once('print_msg.php');
+                    include_once('functions/message.php');
+                    $message = new message($_GET['messageID']);
+                    $message->print_message();
                 } else
                 { ?>
                     <table class="table-bordered">

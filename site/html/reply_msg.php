@@ -4,10 +4,12 @@
 ?>
 
 
-
 <!-- left side bar goes here -->
 <?php
     include('fragments/left_side_bar.php');
+
+    $oldMsgID = $_GET['messageID'];
+    $reObj = "";
 ?>
 
 <div class="right_section">
@@ -19,31 +21,40 @@
         <div class=row>
             <div class=col>
                 <?php
-                    include('print_msg.php');
+                    include_once('functions/message.php');
+                    $message = new message($_GET['messageID']);
+                    $message->print_message();
                 ?>
-
                 <br>
+                <form action="reply_msg.php?reply=true&amp;messageID=<?= $oldMsgID ?>" method="POST" id="form">
+                    <input type="hidden" name="oldMsgID" value="<?= $oldMsgID ?>"/>
+                    <label for="reply">Write a reply :</label>
 
-                <form method="post" action="?">
-                    <input type="hidden" name="oldMsgID" value=<?php echo $oldMsgID; ?>/>
-                    <label for="reply">Reply :</label>
-                    <textarea cols="35" rows="10" id="reply" name="reply">Type your reply here ...</textarea>
-                    <br><br>
+                    <textarea cols="100%"
+                              rows="8"
+                              id="reply"
+                              name="reply"
+                              placeholder="Type your reply here ..."
+                              required></textarea>
+
                     <input type="submit" name="send" value="Send">
+                    <br>
 
                     <?php
-                        $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
 
                         $id = 'SELECT id FROM users WHERE username = "' . $_SESSION["login"] . '";';
-                        $newSenderid = $db->query($id);
+                        $newSenderid = $db->query($id)->fetch()[0];
+                        print $newSenderid;
 
+                        var_dump($_POST);
                         $reObj = "RE: " . $object;
+                        var_dump($reObj);
                         $reply = $_POST['reply'];
                         $newMsgID = $oldMsgID + 1;
 
                         $req = 'SELECT senderID FROM message WHERE messageID = ' . $oldMsgID . '; ';
-                        $newRecipientID = $db->query($req);
-
+                        $newRecipientID = $db->query($req)->fetch()[0];
+                        print $newRecipientID;
                         $date = new DateTime();
                         $dt = $date->format('d.m.Y H:i');
 
@@ -51,13 +62,23 @@
                         if (isset($_POST['send']))
                         {
                             // inserts the reply message in the database
-                            // increments the message id, gets the current timestamp, gives the sender id, sets the msg object as a reply and sends the message itself
-                            $sql = 'INSERT INTO message (messageID, messageDate, senderID, recipientID, object, message)
-                                        VALUES( "' . $newMsgID . '", "' . $dt . '", "' . $newSenderid . '", "' . $newRecipientID . '", "' . $reObj . '", "' . $reply . '");';
+                            // increments the message id automatically, gets the current date and time, gives the sender id, sets the msg object as
+                            // a reply and sends the message itself
+                            $sth = $db->prepare("INSERT INTO message (messageDate, senderID, recipientID, object, message)
+                                        VALUES(?, ?, ?, ?, ?);");
+                            $insert = $sth->execute(array($date, $newSenderID, $newRecipientID, $reObj, $reply));
 
-                            $ret = $db->query($sql);
-                            // this var_dump doesn't show anything
-                            var_dump($sql);
+                            var_dump($date);
+                            var_dump($newSenderID);
+                            var_dump($newRecipientID);
+                            var_dump($reObj);
+                            var_dump($reply);
+                            var_dump($sth);
+
+                            if (!$insert)
+                            {
+                                print_r("Oops ... Something went wrong! The message has not been sent.");
+                            }
                         }
                     ?>
                 </form>
