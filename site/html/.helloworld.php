@@ -11,9 +11,7 @@
 !!
  -->
 <!-- header goes here -->
-<?php
-    include('fragments/header.php');
-?>
+
 
 <?php echo '<p>Hello World</p>';
     $version = phpversion();

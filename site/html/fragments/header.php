@@ -17,12 +17,18 @@
         $loginName = $_SESSION['login'];
 
         $db = connectDB();
-        $sth = $db->prepare('SELECT active FROM users WHERE username =  ?');
+        $sth = $db->prepare('SELECT active, roleID FROM users WHERE username =  ?');
         $sth->execute(array($loginName));
         $result = $sth->fetchAll();
-        if ($result == 0)  // booleans in SQLite are 0 or 1 integers
+        if ($result[0]["active"] == 0)  // booleans in SQLite are 0 or 1 integers
         {
             utils::redirect("logout.php");
+        }
+
+        // we don't want someone who isn't admin (roleID 1)
+        if (substr($_SERVER['PHP_SELF'], 0, 15) == "/administration" && $result[0]["roleID"] != 1)
+        {  // important to check if we're not redirecting login.php onto itself
+            utils::redirect("");
         }
     }
 

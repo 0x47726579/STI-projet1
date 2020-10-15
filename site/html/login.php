@@ -39,30 +39,45 @@
 
 
 <div class="right_section">
-    <h2>Please login</h2>
-    <hr>
-    <div class="box" style="padding-right: 380px;">
-        <form action="login.php?login=true" method="POST" id="form">
-            <div class="form-group">
+    <div style="height: 200px">
+
+        <h2>Please login</h2>
+        <hr>
+        <form style=" float: left
+        " action="login.php?login=true" method="POST" id="form">
+            <div class="column_one">
                 <label for="username">
                     Username :
-                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
+                    <input type="text"
+                           name="username"
+                           id="username"
+                           placeholder="Enter username"
+                           style="margin-left: 30px"
+                           required>
                 </label>
-            </div>
-            <div class="form-group">
                 <label for="password">
                     Password :
-                    <input type="password" class="form-control" name="password" id="password"
-                           placeholder="Enter password">
+                    <input type="password"
+                           name="password"
+                           id="password"
+                           placeholder="Enter password"
+                           style="margin-left: 33px"
+                           required>
                 </label>
             </div>
-            <input type="submit" name="submitForm" value="LOGIN"/>
+            <div class="column_two">
+            </div>
+            <div class="column_one">
+                <input type="submit" name="submitForm" value="LOGIN"/>
+            </div>
         </form>
+
+        <?php if ($error) { ?>
+            <p style="text-align: left; line-height: 32px; margin-left: 310px">Check the credentials you entered, if
+                it still doesn't work your account
+                might be disabled...</p>
+        <?php } ?>
     </div>
-    <?php if ($error) { ?>
-        <hr><p style="text-align: center">Check the credentials you entered, if it still doesn't work your account
-            might be disabled...</p>
-    <?php } ?>
 </div>
 <!-- footer goes here -->
 <?php

@@ -4,13 +4,12 @@
 ?>
 
 <?php
-    $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
 
     // finds the message to delete with its id
     $sql = 'DELETE FROM message WHERE messageID = "' . $_GET['messageID'] . '";';
 
     $ret = $db->query($sql);
-
+    utils::redirect("mailbox.php");
 ?>
 
 
@@ -24,6 +23,7 @@
         <h1>
             Your mailbox
         </h1>
+        <hr>
         <h2>
             Message deleted
         </h2>
