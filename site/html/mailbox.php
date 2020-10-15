@@ -94,7 +94,7 @@
                         {
                             // $loginName comes from header.php, it's our logged username, it should be unique
                             // as specified in the DB Schema
-                            $sth = $db->prepare("SELECT id, username FROM users WHERE username != ? ;");
+                            $sth = $db->prepare("SELECT id, username FROM users WHERE username != ? ORDER BY username COLLATE NOCASE;");
                             $sth->execute(array($loginName));
                             $userNames = $sth->fetchAll();
 
