@@ -10,10 +10,10 @@
   * `/etc/hosts` on Linux
 
 ```shell
-$ git clone https://github.com/0x47726579/STI-projet1.git
-$ cd STI-projet1
-/STI-projet1$ chmod+x script.sh
-/STI-projet1$ ./script.sh
+$> git clone https://github.com/0x47726579/STI-projet1.git
+$> cd STI-projet1
+/STI-projet1 $> chmod +x script.sh
+/STI-projet1 $> ./script.sh
 ```    
 
 ## Users
