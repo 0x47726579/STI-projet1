@@ -3,8 +3,7 @@
 @Authors Laurent Scherer && Cassandre Wojciechowski
  
 
-
-Might be useful : 
+### Might be useful : 
 
   * Add `127.0.0.1 sti` to : 
 
@@ -12,12 +11,13 @@ Might be useful :
 
     * `/etc/hosts` on Linux
 
-    
 
-    
+## Get started : 
 
-    
-
+`$ git clone https://github.com/0x47726579/STI-projet1.git`
+`$ cd STI-projet1`
+`/STI-projet1$ chmod+x script.sh`
+`/STI-projet1$ ./script.sh`
     
 
 ## Users
