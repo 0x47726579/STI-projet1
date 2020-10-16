@@ -9,11 +9,12 @@
   * `%SystemRoot%\System32\drivers\etc\hosts` on Windows
   * `/etc/hosts` on Linux
 
-`$ git clone https://github.com/0x47726579/STI-projet1.git` <br>
-`$ cd STI-projet1` <br>
-`/STI-projet1$ chmod+x script.sh` <br>
-`/STI-projet1$ ./script.sh` <br>
-    
+```shell
+$ git clone https://github.com/0x47726579/STI-projet1.git
+$ cd STI-projet1
+/STI-projet1$ chmod+x script.sh
+/STI-projet1$ ./script.sh
+```    
 
 ## Users
 
