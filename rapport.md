@@ -229,5 +229,16 @@ S'assurer qu'un login prenne toujours autant de temps, qu'il soit fait avec succ
 On pourra aussi introduire un élément de temps alléatoire, tel qu'un `sleep(rand(1,100) / 100);` avant notre requète SQL.
 C'est d'ailleurs la solution que l'on choisira. Cela introduira un temps d'attente allant de 0.01 à 1 seconde.
 
+### Scénario 6) Mots de passe forts
 
+En l'état le siteweb ne vérifie pas si un mot de passe est fort ou non, il n'y a pas de longueur minimale ou d'obligation d'utiliser caractères spéciaux + chiffres + lettres.
+Les mots de passes étant choisis par l'admin à la création il est probable qu'ils ne seront pas très complexe s'il doit les entrer lui même à chaque fois.
+De plus les utilisateurs metteront des mots de passes aussi simples que possible afin de s'en souvenir.
+
+Une personne avec un peu d'imagination pourrait facilement deviner le mot de passe d'un collaborateur, le brute force serait aussi une possibilité.
+
+
+#### Contre-mesures
+
+Introduire une politique de mots de passe saine : 8 chars ou plus, utiliser au moins un chiffre, une lettre majuscule, et une lettre minuscule, ainsi qu'un caractère spécial.
 
