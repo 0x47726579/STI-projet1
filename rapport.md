@@ -97,7 +97,7 @@ crédibilité auprès des employés.
 Si une personne malveillante parvient à exécuter une injection SQL au niveau du formulaire de connexion, elle pourra alors commencer à obtenir des informations sur la DB et son contenu avec les requêtes SQL appropriées. L'impact sur l'entreprise serait très important, car cette attaque compromettrait l'intégralité des données présentes en base de
 données. Un tel attaquant pourrait modifier et les lire les données afin de manipuler l'intégrité du service. Cela entrainerait une grande perte de crédibilité pour l'entreprise.
 
-De part nos tests nous savons que des outils tels que SQLmap ne sont pas cappables de créer des payloads afin d'obtenir des injections SQL, une telle attaque demandera donc des compétences plus avancées que celles d'un script-kiddy. Vecteur d'attaque plutôt réservé aux professionnels et cybercriminels.
+De part nos tests nous savons que des outils tels que SQLmap ne sont pas capables de créer des payloads afin d'obtenir des injections SQL, une telle attaque demandera donc des compétences plus avancées que celles d'un script-kiddy. Vecteur d'attaque plutôt réservé aux professionnels et cybercriminels.
 
 #### Contre-mesures
 
@@ -210,7 +210,7 @@ En effet, on vérifie d'abord de façon très simple si le nom est dans la DB, h
 
 S'assurer qu'un login prenne toujours autant de temps, qu'il soit fait avec succès ou non. On pourra aussi introduire un élément de temps aléatoire, tel qu'un `sleep(rand(1,100) / 100);` avant notre requête SQL. C'est d'ailleurs la solution que l'on choisira. Cela introduira un temps d'attente allant de 0.01 à 1 seconde.
 
-### Scénario 6) Mots de passe forts
+### Scénario 7) Mots de passe forts
 
 En l'état le site web ne vérifie pas si un mot de passe est fort ou non, il n'y a pas de longueur minimale ou d' obligation d'utiliser caractères spéciaux + chiffres + lettres. Les mots de passes étant choisis par l'admin à la création il est probable qu'ils ne seront pas très complexe s'il doit les entrer lui même à chaque fois. De plus les utilisateurs mettront des mots de passes aussi simples que possible afin de s'en souvenir.
 
@@ -231,6 +231,53 @@ elseif (!preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$#', $_POST['new_pw
 
 Ce code sera appelé dans `settings.php` pour les utilisateurs changeant leur mot de passe, ainsi que
 dans `administration.php` pour aussi forcer cette politique sur les admins
+
+
+
+### Scénario 8) Login formulaire CSRF attaque
+
+Un attaquant pourrait forcer un utilisateur à se connecter dans le compte de l'attaquant  sur son site web, et par ce biais révéler les informations de ce que le user fait quant il se connecte.
+
+Les risques liés à cela pourrait être ici de voir tous les messages envoyés par cet utilisateur.
+
+Vu qu'ici n'importe qui ne peut pas se faire un compte, le risque d'attaque est donc peu élevé car l'attaquant ne pourra pas vite créer un compte et ainsi connaitre ses identifiants. Il faudrait que ce soit une personne ayant un compte ici.
+
+
+
+#### Contre-mesures:
+
+Ajouter un CSRF Token dans le formulaire pour éviter cela:
+
+Création d'un token:
+
+```php
+session_start();
+
+if(empty($_SESSION['CSRFtoken'])){
+
+	$_SESSION['CSRFtoken'] = bin2hex(random_bytes(32));
+}
+$CSRFtoken = $_SESSION['CSRFtoken'];
+```
+
+Vérification du token:
+
+```php
+if( !empty($_POST['CSRFtoken'])){
+
+	if(hash_equals($_SESSION['CSRFtoken'],$_POST['CSRFtoken'] )){
+		// c'est valide, on continue de traiter le formulaire
+	} else {
+		// on peut logger cela et juste arreter la le formulaire
+	}
+}
+```
+
+
+
+
+
+###  
 
 ## Addendum
 
