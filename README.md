@@ -1,7 +1,10 @@
-# STI-projet1
+# STI-projet2
 
-@Authors Laurent Scherer && Cassandre Wojciechowski
- 
+@Authors Florian Mülhauser && Laurent Scherer   
+
+# Raport du projet 
+
+Le raport ce trouve [ici 🔗](rapport.md)
 
 ## Get started : 
 
