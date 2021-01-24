@@ -7,6 +7,10 @@
     <div class="right_section">
         <div class="common_content">
             <?php
+                if ($_GET['p'])
+                {
+                    echo "Password not strong enough. It must have a minimum length of 8, contain at least one lowercase letter, one uppercase letter and one number.";
+                }
                 if (isset($_GET) and $_GET != null)
                 {
                     $sth = $db->prepare('SELECT * FROM users WHERE id =   ?');
@@ -85,6 +89,10 @@
                     // here we set the new password
                     if ($_GET['setPassword'])
                     {
+                        if (!preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$#', $_POST['password']))
+                        {
+                            utils::redirect("administration.php?p=true");
+                        }
                         $sth = $db->prepare('UPDATE users SET password = ? WHERE id = ? ');
                         $sth->execute(array($_POST['password'], $userInfo['id']));
                         utils::redirect("administration.php");
@@ -92,6 +100,10 @@
                     // here we add the user
                     if ($_GET['addUser'])
                     {
+                        if (!preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$#', $_POST['password']))
+                        {
+                            utils::redirect("administration.php?p=true");
+                        }
                         $username = $_POST['username'];
                         $pwd = $_POST['password'];
                         $active = (int)$_POST['activate'];

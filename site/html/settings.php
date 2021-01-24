@@ -68,6 +68,10 @@
                         {
                             print_r("You can't reuse the same password!");
                         }
+                        elseif (!preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$#', $_POST['new_pwd']))
+                        {
+                            echo "Password not strong enough. It must have a minimum length of 8, contain at least one lowercase letter, one uppercase letter and one number.";
+                        }
                         else
                         {
                             // we update the database with the new password
