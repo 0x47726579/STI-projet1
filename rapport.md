@@ -213,5 +213,21 @@ Ce type d'attaque est ouverte à tous. Si des failles existent sans avoir une Po
 Garder les logiciels à jour.
 
 
+### Scénario 6) Timing attacks
+
+Au vu des fonctions utilisées lors du login, il est possible d'obtenir des informations à divers niveaux : 
+  * Nom présent dans la DB 
+  * Caractères composant le mot de passe
+
+En effet, on vérifie d'abord de façon très simple si le nom est dans la DB, hors si un attaquand vener à mesurer le temps en ajoutant à chaque fois une lettre correcte, il pourrait énumérer les utilisateurs de DB.
+Puis on vérifie encore une fois de la même façon le mot de passe (simple string compare par PHP).
+Ce type d'attaque demande un minimum de connaissance technique mais peut éventuellement être à la porté de script-kiddies.
+
+#### Contre-mesures
+
+S'assurer qu'un login prenne toujours autant de temps, qu'il soit fait avec succès ou non.
+On pourra aussi introduire un élément de temps alléatoire, tel qu'un `sleep(rand(1,100) / 100);` avant notre requète SQL.
+C'est d'ailleurs la solution que l'on choisira. Cela introduira un temps d'attente allant de 0.01 à 1 seconde.
+
 
 

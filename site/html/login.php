@@ -8,8 +8,8 @@
     $error = false;
     if (isset($_GET["login"]))
     {
+        sleep(rand(1,100) / 100);
         // here we retrieve the user info linked to the username entered
-        sleep(1);
         $db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
         $sth = $db->prepare('SELECT id, username, password, active FROM users WHERE username = ?');
         $username = $_POST["username"];
