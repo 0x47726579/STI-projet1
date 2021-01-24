@@ -34,8 +34,7 @@ et non pas à celles introduites par les versions utilisées par ces services.
 
 ### Notion de rôle
 
-Un utilisateur a un rôle associé lui donnant soit des droits en tant que *Collaborator* (`roleID 2`), soit en tant qu'*
-Administrator* (`roleID 1`).
+Un utilisateur a un rôle associé lui donnant soit des droits en tant que *Collaborator* (`roleID 2`), soit en tant qu'*Administrator* (`roleID 1`).
 
 #### Collaborator
 
