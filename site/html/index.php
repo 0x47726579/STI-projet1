@@ -21,11 +21,11 @@
         <p>In the meantime, please enjoy some cat facts :</p>
         <br>
         <ul>
-        <?php for ($i = 0; $i < rand(3,9); $i++) : ?>
+            <?php for ($i = 0; $i < rand(3, 9); $i++) : ?>
                 <li><?php $json = file_get_contents('https://catfact.ninja/fact');
                         $obj = json_decode($json);
                         echo $obj->fact; ?></li>
-        <?php endfor; ?>
+            <?php endfor; ?>
         </ul>
     </div>
 

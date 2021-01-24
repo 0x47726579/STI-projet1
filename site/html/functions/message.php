@@ -36,8 +36,8 @@
             $this->senderName = $ret['senderName'];
             $this->recipientID = $ret['recipientID'];
             $this->recipientName = $ret['recipientName'];
-            $this->object = $ret['object'];
-            $this->content = $ret['message'];
+            $this->object = str_replace("<", "", $ret['object']);
+            $this->content = str_replace("<", "", $ret['message']);
         }
 
         public static function send_message($to, $from, $object, $content)

@@ -30,7 +30,8 @@
                                                name="role"
                                                style="size: 20px"
                                                value='{"roleID":"<?= $row["roleID"] ?>","userID":"<?= $userInfo["id"] ?>"}'
-                                            <?php if ($row["roleID"] == $userInfo["roleID"]) {
+                                            <?php if ($row["roleID"] == $userInfo["roleID"])
+                                            {
                                                 echo 'checked="checked"';
                                             } ?>
                                         /><?= $row["roleName"] ?>
