@@ -143,7 +143,32 @@ L'impact sera similaire aux attaques précédente, mais ce type d'attaque ne req
 
 #### Contre-mesures
 
-Des tokens CSRF cachés dans les formulaires du site.
+Création d'un token, au niveau de `header.php`:
+
+```php
+session_start();
+
+if(empty($_SESSION['CSRFtoken'])){
+
+	$_SESSION['CSRFtoken'] = bin2hex(openssl_random_pseudo_bytes(32));
+}
+$CSRFtoken = $_SESSION['CSRFtoken'];
+```
+
+Vérification du token au niveau du formulaire:
+
+```php
+if( !empty($_POST['CSRFtoken'])){
+
+	if(hash_equals($_SESSION['CSRFtoken'],$_POST['CSRFtoken'] )){
+		// c'est valide, on continue de traiter le formulaire
+	} else {
+		// on peut logger cela et juste arreter la le formulaire
+	}
+}
+```
+
+
 
 ### Scénario 4) Contrôle d'accès défaillant
 
@@ -247,19 +272,19 @@ Vu qu'ici n'importe qui ne peut pas se faire un compte, le risque d'attaque est 
 
 Ajouter un CSRF Token dans le formulaire pour éviter cela:
 
-Création d'un token:
+Création d'un token, au niveau de `header.php`:
 
 ```php
 session_start();
 
 if(empty($_SESSION['CSRFtoken'])){
 
-	$_SESSION['CSRFtoken'] = bin2hex(random_bytes(32));
+	$_SESSION['CSRFtoken'] = bin2hex(openssl_random_pseudo_bytes(32));
 }
 $CSRFtoken = $_SESSION['CSRFtoken'];
 ```
 
-Vérification du token:
+Vérification du token au niveau du formulaire:
 
 ```php
 if( !empty($_POST['CSRFtoken'])){
